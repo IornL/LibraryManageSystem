@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="LibraryManagementSystem.AdminMapper">
+<mapper namespace="Manager.Model.AdminMapper">
     <select id="selectAdminByID" parameterType="String" resultType="Admin">
-        SELECT id, password FROM ADMIN WHERE id=#{id}
+        SELECT id, password FROM ADMIN WHERE id=#{id} AND password=#{password}
     </select>
 
 </mapper>

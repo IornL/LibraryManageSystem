@@ -24,10 +24,10 @@ public class ORMInterface {
         sessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
 
-    static Admin selectAdmin(String id) {
+    public static Admin selectAdmin(String id, String password) {
         SqlSession session = sessionFactory.openSession();
         AdminMapper mapper = session.getMapper(AdminMapper.class);
-        Admin resultAdmin = mapper.selectAdminByID(id);
+        Admin resultAdmin = mapper.selectAdminByID(id, password);
         session.close();
         return resultAdmin;
     }
