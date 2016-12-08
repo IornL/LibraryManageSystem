@@ -23,6 +23,7 @@ public class Controller {
     public JFXDialog errorDialog;
 
     public void initialize() {
+        errorDialog.setDialogContainer(rootPane);
         idTextField.textProperty().addListener((observable, oldValue, newValue) -> {loginButton.setDisable(idTextField.getText().isEmpty() || passwordTextField.getText().isEmpty());});
         passwordTextField.textProperty().addListener((observable, oldValue, newValue) -> {loginButton.setDisable(idTextField.getText().isEmpty() || passwordTextField.getText().isEmpty());});
         System.out.println("Init success");
@@ -41,9 +42,12 @@ public class Controller {
         String password = passwordTextField.getText();
         Admin result = ORMInterface.selectAdmin(id, password);
         if (result == null) {
-            System.out.printf("Login error");
-            errorDialog.setDialogContainer(rootPane);
             errorDialog.show();
+            passwordTextField.setText("");
         }
+    }
+
+    public void handleCloseDialog(ActionEvent event) {
+        errorDialog.close();
     }
 }
