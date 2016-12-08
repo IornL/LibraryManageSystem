@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="600.0" prefWidth="120.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" prefHeight="116.0" prefWidth="120.0" text="菜单">
+         <font>
+            <Font size="37.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="2.0" top="2.0" />
+         </VBox.margin>
+      </Label>
+      <JFXButton buttonType="RAISED" prefHeight="116.0" prefWidth="120.0" style="-fx-background-color: lightgreen;" text="图书借阅">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" prefHeight="116.0" prefWidth="120.0" style="-fx-background-color: lightblue;" text="图书归还">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" prefHeight="116.0" prefWidth="120.0" style="-fx-background-color: lightpink;" text="图书管理">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" prefHeight="116.0" prefWidth="120.0" style="-fx-background-color: lightgray;" text="读者管理">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+   </children>
+</VBox>
