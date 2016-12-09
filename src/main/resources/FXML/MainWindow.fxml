@@ -8,13 +8,47 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Manager.MainWindow.Controller">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Manager.MainWindow.BaseContainer">
    <children>
-      <JFXDrawer fx:id="drawer" defaultDrawerSize="120.0" onMouseEntered="#handleMouseEnterd" onMouseExited="#handleMouseExitd" prefHeight="600.0" prefWidth="140.0" />
-      <FontAwesomeIcon iconName="ANGLE_DOUBLE_RIGHT" layoutX="6.0" layoutY="328.0" size="2em" wrappingWidth="54.14285659790039" />
-      <HBox layoutX="681.0">
+      <Pane fx:id="sideBarPane" prefHeight="600.0" prefWidth="120.0">
          <children>
-            <JFXButton fx:id="handleMinimize" contentDisplay="CENTER" onAction="#handleMinimize" prefHeight="30.0" prefWidth="30.0" text=" ">
+            <VBox prefHeight="600.0" prefWidth="120.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="128.0" prefWidth="118.0" text="菜单">
+                     <font>
+                        <Font size="37.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="2.0" top="2.0" />
+                     </VBox.margin>
+                  </Label>
+                  <JFXButton buttonType="RAISED" onAction="#handleBorrowPane" prefHeight="116.0" prefWidth="120.0" style="-fx-background-color: lightgreen;" text="图书借阅">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" onAction="#handleReturnPane" prefHeight="116.0" prefWidth="120.0" style="-fx-background-color: lightblue;" text="图书归还">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" onAction="#handleBookManagePane" prefHeight="116.0" prefWidth="120.0" style="-fx-background-color: lightpink;" text="图书管理">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" onAction="#handleReaderManagePane" prefHeight="116.0" prefWidth="120.0" style="-fx-background-color: lightgray;" text="读者管理">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </children></Pane>
+      <StackPane fx:id="stackPane" layoutX="120.0" prefHeight="600.0" prefWidth="680.0" />
+      <HBox layoutX="703.0">
+         <children>
+            <JFXButton contentDisplay="CENTER" onAction="#handleMinimize" prefHeight="30.0" prefWidth="30.0" text=" ">
                <graphic>
                   <FontAwesomeIcon iconName="ANGLE_DOWN" size="30" wrappingWidth="31.0" />
                </graphic>

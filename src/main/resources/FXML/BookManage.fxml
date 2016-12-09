@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXTreeTableView layoutX="100.0" layoutY="70.0" prefHeight="530.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+         <columns>
+            <TreeTableColumn prefWidth="170.0" text="图书编号" />
+            <TreeTableColumn prefWidth="170.0" text="图书名" />
+            <TreeTableColumn prefWidth="170.0" text="出版社" />
+            <TreeTableColumn prefWidth="170.0" text="图书状态" />
+         </columns>
+      </JFXTreeTableView>
+      <JFXButton layoutX="14.0" layoutY="14.0" text="添加图书" />
+   </children>
+</AnchorPane>

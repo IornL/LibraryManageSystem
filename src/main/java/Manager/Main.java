@@ -17,7 +17,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         Parent root = FXMLLoader.load(getClass().getResource("/FXML/MainWindow.fxml"));
-        primaryStage.setTitle("shit");
+        primaryStage.setTitle("苟利国家生死以");
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.setResizable(false);
         primaryStage.show();
