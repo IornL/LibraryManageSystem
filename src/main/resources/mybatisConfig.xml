@@ -4,6 +4,7 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="Admin" type="Manager.Model.Admin"/>
+        <typeAlias alias="Book" type="Manager.Model.Book"/>
     </typeAliases>
 
     <environments default="development">
@@ -19,6 +20,7 @@
     </environments>
 
     <mappers>
+        <mapper resource="mapper/BookMapper.xml"/>
         <mapper resource="mapper/AdminMapper.xml"/>
     </mappers>
 </configuration>

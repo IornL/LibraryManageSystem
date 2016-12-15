@@ -23,19 +23,16 @@ import java.io.IOException;
 /**
  * Created by Iron on 2016/12/7.
  */
-public class BaseContainer {
+public class BaseController {
 
-
-    public StackPane stackPane;
-    public Pane sideBarPane;
+    @FXML
+    private StackPane stackPane;
+    @FXML
+    private Pane sideBarPane;
     @FXML
     private AnchorPane rootPane;
 
-    @FXML
-    private GridPane bookBorrowPane, bookReturnPane;
-
-    @FXML
-    private AnchorPane bookManagePane, readerManagePane;
+    public AnchorPane bookManagePane, readerManagePane, bookBorrowPane, bookReturnPane;
 
     private Node[] nodes;
 
@@ -44,11 +41,11 @@ public class BaseContainer {
 
     @FXML
     public void initialize() throws IOException {
+        SharedControllers.baseController=this;
         bookBorrowPane = FXMLLoader.load(getClass().getResource("/FXML/BookBorrow.fxml"));
         bookReturnPane = FXMLLoader.load(getClass().getResource("/FXML/BookReturn.fxml"));
         bookManagePane = FXMLLoader.load(getClass().getResource("/FXML/BookManage.fxml"));
         readerManagePane = FXMLLoader.load(getClass().getResource("/FXML/ReaderManage.fxml"));
-
          nodes = new Node[]{
                 bookBorrowPane,
                 bookReturnPane,
