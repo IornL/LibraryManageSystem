@@ -40,7 +40,7 @@ public class Controller {
     public void handleLogin(ActionEvent event) {
         String id = idTextField.getText();
         String password = passwordTextField.getText();
-        Admin result = ORMInterface.selectAdmin(id, password);
+        Admin result = Admin.selectAdmin(id, password);
         if (result == null) {
             errorDialog.show();
             passwordTextField.setText("");

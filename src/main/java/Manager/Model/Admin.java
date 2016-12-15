@@ -1,8 +1,20 @@
 package Manager.Model;
+
+import Manager.ORMInterface;
+import org.apache.ibatis.session.SqlSession;
+
 /**
  * Created by Iron on 2016/12/6.
  */
 public class Admin {
+
+    public static Admin selectAdmin(String id, String password) {
+        SqlSession session = ORMInterface.getSession();
+        AdminMapper mapper = session.getMapper(AdminMapper.class);
+        Admin resultAdmin = mapper.selectAdminByID(id, password);
+        session.close();
+        return resultAdmin;
+    }
 
     private String id, password;
 
