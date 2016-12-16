@@ -1,23 +1,13 @@
 package Manager.MainWindow;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXDrawersStack;
-import com.jfoenix.controls.JFXNodesList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.*;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.text.*;
-import javafx.scene.text.Font;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 /**
@@ -41,12 +31,12 @@ public class BaseController {
 
     @FXML
     public void initialize() throws IOException {
-        SharedControllers.baseController=this;
+        SharedControllers.baseController = this;
         bookBorrowPane = FXMLLoader.load(getClass().getResource("/FXML/BookBorrow.fxml"));
         bookReturnPane = FXMLLoader.load(getClass().getResource("/FXML/BookReturn.fxml"));
         bookManagePane = FXMLLoader.load(getClass().getResource("/FXML/BookManage.fxml"));
         readerManagePane = FXMLLoader.load(getClass().getResource("/FXML/ReaderManage.fxml"));
-         nodes = new Node[]{
+        nodes = new Node[]{
                 bookBorrowPane,
                 bookReturnPane,
                 bookManagePane,

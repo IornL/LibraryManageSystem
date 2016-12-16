@@ -17,7 +17,16 @@
                   <FontAwesomeIcon iconName="PLUS" />
                </graphic>
             </JFXButton>
-            <JFXTreeTableView fx:id="bookListView" prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.0" />
+            <JFXTreeTableView fx:id="bookListView" editable="true" onMouseClicked="#handleShowPopup" prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.0" />
+            <JFXPopup fx:id="popup">
+               <children>
+                  <VBox fx:id="popupContentVBox">
+                     <children>
+                        <JFXButton onAction="#handleDeleteRow" buttonType="RAISED" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: lightpink" text="删除" />
+                     </children>
+                  </VBox>
+               </children>
+            </JFXPopup>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="bookAddPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" visible="false">
