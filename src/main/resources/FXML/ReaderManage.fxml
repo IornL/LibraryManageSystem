@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import de.jensd.fx.glyphs.fontawesome.*?>
 <?import javafx.scene.control.*?>
 <?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="readerManagePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Manager.MainWindow.ReaderManageController">
     <children>
-        <JFXButton layoutX="104.0" layoutY="26.0" prefHeight="48.0" prefWidth="445.0" text="添加">
-            <graphic>
-                <FontAwesomeIcon iconName="PLUS"/>
-            </graphic>
-        </JFXButton>
-        <JFXTreeTableView layoutX="192.0" layoutY="87.0" prefHeight="513.0" prefWidth="680.0"
-                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                          AnchorPane.topAnchor="87.0"/>
+      <StackPane>
+         <children>
+            <AnchorPane fx:id="readerManagePane" prefHeight="600.0" prefWidth="680.0">
+               <children>
+                    <JFXTreeTableView fx:id="userListView" layoutY="62.0" prefHeight="513.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="87.0" />
+                    <JFXButton layoutX="106.0" layoutY="22.0" onAction="#handleOpenDialog" prefHeight="48.0" prefWidth="445.0" text="添加">
+                        <graphic>
+                            <FontAwesomeIcon iconName="PLUS" />
+                        </graphic>
+                    </JFXButton>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="addReaderDialog" prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <JFXTextField fx:id="nameTextField" layoutX="118.0" layoutY="99.0" maxWidth="445.0" minWidth="322.0" prefHeight="116.0" prefWidth="445.0" promptText="姓名">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="addressTextField" layoutX="118.0" layoutY="299.0" maxWidth="445.0" minWidth="437.0" prefHeight="116.0" prefWidth="445.0" promptText="家庭住址">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXButton layoutX="130.0" layoutY="446.0" onAction="#handleAddReader" prefHeight="80.0" prefWidth="182.0" text="添加" />
+                  <JFXButton layoutX="374.0" layoutY="446.0" onAction="#handleReturn" prefHeight="80.0" prefWidth="160.0" text="返回" />
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
     </children>
 </AnchorPane>

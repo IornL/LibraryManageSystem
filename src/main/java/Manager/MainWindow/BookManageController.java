@@ -73,7 +73,7 @@ public class BookManageController {
             book.save();
         });
         JFXTreeTableColumn<Book, String> pubDateColumn = new JFXTreeTableColumn<Book, String>("出版日期");
-//        pubDateColumn.setPrefWidth(97.14);
+        //TODO use datePicker as cellFactory
         pubDateColumn.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
         pubDateColumn.setCellValueFactory((param -> new SimpleStringProperty(param.getValue().getValue().getPubDate())));
         pubDateColumn.setOnEditCommit(event -> {

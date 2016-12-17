@@ -9,11 +9,17 @@ import java.util.List;
 /**
  * Created by Iron on 2016/12/12.
  */
-class Reader extends RecursiveTreeObject<Reader> {
+public class Reader extends RecursiveTreeObject<Reader> {
 
     private int id, borrowCount;
     private String name, address;
     private boolean frozen;
+
+    public Reader() {};
+    public  Reader(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
 
     public int getId() {
         return id;
@@ -55,7 +61,7 @@ class Reader extends RecursiveTreeObject<Reader> {
         this.frozen = frozen;
     }
 
-    public List<Reader> getAllReaders() {
+    public static List<Reader> getAllReaders() {
         SqlSession session = ORMInterface.getSession();
         ReaderMapper mapper = session.getMapper(ReaderMapper.class);
         List<Reader> readers = mapper.getAllReaders();
@@ -70,6 +76,7 @@ class Reader extends RecursiveTreeObject<Reader> {
             mapper.addReader(this);
         else
             mapper.updateReader(this);
+        session.commit();
         session.close();
     }
 
@@ -77,6 +84,7 @@ class Reader extends RecursiveTreeObject<Reader> {
         SqlSession session = ORMInterface.getSession();
         ReaderMapper mapper = session.getMapper(ReaderMapper.class);
         mapper.deleteReader(this);
+        session.commit();
         session.close();
     }
 
