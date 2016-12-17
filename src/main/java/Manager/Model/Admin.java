@@ -18,13 +18,15 @@ public class Admin {
 
     private String id, password;
 
-    public Admin() {};
+    public Admin() {
+    }
 
-    public Admin(String id,String password) {
+    ;
+
+    public Admin(String id, String password) {
         this.id = id;
         this.password = password;
     }
-
 
 
     public String getId() {
@@ -39,7 +41,7 @@ public class Admin {
         return password;
     }
 
-    public void setPassword(String password ) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

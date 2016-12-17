@@ -8,111 +8,124 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Manager.LoginDialog.Controller">
-   <children>
-      <GridPane>
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="295.0" minHeight="10.0" prefHeight="153.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="463.0" minHeight="10.0" prefHeight="447.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
-         <children>
-            <GridPane layoutX="179.0" layoutY="183.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="184.0" minHeight="10.0" prefHeight="151.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="385.0" minHeight="3.0" prefHeight="297.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="192.0" minHeight="2.0" prefHeight="148.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Pane>
-                     <children>
-                        <Label layoutX="48.0" layoutY="45.0" text="用户登录">
-                           <font>
-                              <Font size="50.0" />
-                           </font>
-                           <GridPane.margin>
-                              <Insets left="10.0" />
-                           </GridPane.margin>
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="Manager.LoginDialog.Controller">
+    <children>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="295.0" minHeight="10.0" prefHeight="153.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="463.0" minHeight="10.0" prefHeight="447.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+        </GridPane>
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    prefHeight="600.0" prefWidth="800.0">
+            <children>
+                <GridPane layoutX="179.0" layoutY="183.0" prefHeight="600.0" prefWidth="800.0"
+                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                          AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="184.0" minHeight="10.0" prefHeight="151.0" vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="385.0" minHeight="3.0" prefHeight="297.0" vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="192.0" minHeight="2.0" prefHeight="148.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <Pane>
+                            <children>
+                                <Label layoutX="48.0" layoutY="45.0" text="用户登录">
+                                    <font>
+                                        <Font size="50.0"/>
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets left="10.0"/>
+                                    </GridPane.margin>
+                                </Label>
+                            </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                            <children>
+                                <JFXTextField fx:id="idTextField" layoutX="125.0" layoutY="59.0" maxWidth="545.0"
+                                              minWidth="550.0" prefHeight="65.0" prefWidth="545.0" promptText="账号">
+                                    <font>
+                                        <Font size="35.0"/>
+                                    </font>
+                                </JFXTextField>
+                                <JFXPasswordField fx:id="passwordTextField" layoutX="125.0" layoutY="178.0"
+                                                  maxWidth="525.0" minWidth="550.0" prefHeight="65.0" prefWidth="525.0"
+                                                  promptText="密码">
+                                    <font>
+                                        <Font size="35.0"/>
+                                    </font>
+                                </JFXPasswordField>
+                            </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                            <children>
+                                <JFXButton fx:id="loginButton" buttonType="RAISED" contentDisplay="CENTER"
+                                           disable="true" layoutX="73.0" layoutY="12.0" onAction="#handleLogin"
+                                           prefHeight="87.0" prefWidth="285.0" style="-fx-background-color: #039be5;"
+                                           text="登录">
+                                    <font>
+                                        <Font size="35.0"/>
+                                    </font>
+                                    <styleClass>
+                                        <String fx:value="blue-400"/>
+                                        <String fx:value="display3"/>
+                                    </styleClass>
+                                </JFXButton>
+                                <JFXButton alignment="CENTER" contentDisplay="CENTER" layoutX="431.0" layoutY="13.0"
+                                           onAction="#handleExit" prefHeight="87.0" prefWidth="285.0"
+                                           style="-fx-background-color: #e0e0e0;" text="退出">
+                                    <font>
+                                        <Font size="35.0"/>
+                                    </font>
+                                </JFXButton>
+                            </children>
+                        </Pane>
+                    </children>
+                </GridPane>
+            </children>
+        </AnchorPane>
+        <JFXDialog fx:id="errorDialog" prefHeight="248.0" prefWidth="800.0">
+            <children>
+                <VBox prefHeight="257.0" prefWidth="800.0" style="-fx-background-color: #ffcc80;">
+                    <children>
+                        <Label prefHeight="41.0" prefWidth="800.0" text="提示">
+                            <font>
+                                <Font size="45.0"/>
+                            </font>
+                            <padding>
+                                <Insets left="45.0" top="30.0"/>
+                            </padding>
                         </Label>
-                     </children>
-                  </Pane>
-                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                     <children>
-                        <JFXTextField fx:id="idTextField" layoutX="125.0" layoutY="59.0" maxWidth="545.0" minWidth="550.0" prefHeight="65.0" prefWidth="545.0" promptText="账号">
-                           <font>
-                              <Font size="35.0" />
-                           </font>
-                        </JFXTextField>
-                        <JFXPasswordField fx:id="passwordTextField" layoutX="125.0" layoutY="178.0" maxWidth="525.0" minWidth="550.0" prefHeight="65.0" prefWidth="525.0" promptText="密码">
-                           <font>
-                              <Font size="35.0" />
-                           </font>
-                        </JFXPasswordField>
-                     </children>
-                  </Pane>
-                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
-                     <children>
-                        <JFXButton fx:id="loginButton" buttonType="RAISED" contentDisplay="CENTER" disable="true" layoutX="73.0" layoutY="12.0" onAction="#handleLogin" prefHeight="87.0" prefWidth="285.0" style="-fx-background-color: #039be5;" text="登录">
-                           <font>
-                              <Font size="35.0" />
-                           </font>
-                           <styleClass>
-                              <String fx:value="blue-400" />
-                              <String fx:value="display3" />
-                           </styleClass>
+                        <Label alignment="CENTER" prefHeight="113.0" prefWidth="818.0" text="您的账号或密码有误，请检重新输入"
+                               textAlignment="CENTER">
+                            <font>
+                                <Font size="35.0"/>
+                            </font>
+                            <VBox.margin>
+                                <Insets/>
+                            </VBox.margin>
+                        </Label>
+                        <JFXButton onAction="#handleCloseDialog" prefHeight="69.0" prefWidth="819.0" text="确定">
+                            <VBox.margin>
+                                <Insets/>
+                            </VBox.margin>
+                            <font>
+                                <Font size="35.0"/>
+                            </font>
                         </JFXButton>
-                        <JFXButton alignment="CENTER" contentDisplay="CENTER" layoutX="431.0" layoutY="13.0" onAction="#handleExit" prefHeight="87.0" prefWidth="285.0" style="-fx-background-color: #e0e0e0;" text="退出">
-                           <font>
-                              <Font size="35.0" />
-                           </font>
-                        </JFXButton>
-                     </children>
-                  </Pane>
-               </children>
-            </GridPane>
-         </children>
-      </AnchorPane>
-      <JFXDialog fx:id="errorDialog" prefHeight="248.0" prefWidth="800.0">
-         <children>
-            <VBox prefHeight="257.0" prefWidth="800.0" style="-fx-background-color: #ffcc80;">
-               <children>
-                  <Label prefHeight="41.0" prefWidth="800.0" text="提示">
-                     <font>
-                        <Font size="45.0" />
-                     </font>
-                     <padding>
-                        <Insets left="45.0" top="30.0" />
-                     </padding>
-                  </Label>
-                  <Label alignment="CENTER" prefHeight="113.0" prefWidth="818.0" text="您的账号或密码有误，请检重新输入" textAlignment="CENTER">
-                     <font>
-                        <Font size="35.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Label>
-                  <JFXButton onAction="#handleCloseDialog" prefHeight="69.0" prefWidth="819.0" text="确定">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <font>
-                        <Font size="35.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </VBox>
-         </children>
-         <StackPane.margin>
-            <Insets bottom="160.0" top="160.0" />
-         </StackPane.margin>
-      </JFXDialog>
-   </children>
+                    </children>
+                </VBox>
+            </children>
+            <StackPane.margin>
+                <Insets bottom="160.0" top="160.0"/>
+            </StackPane.margin>
+        </JFXDialog>
+    </children>
 </StackPane>

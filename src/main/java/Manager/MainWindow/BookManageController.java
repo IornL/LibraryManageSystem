@@ -1,13 +1,14 @@
 package Manager.MainWindow;
 
-import Manager.Model.*;
+import Manager.Model.Book;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.*;
-import javafx.collections.*;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTablePosition;
@@ -189,7 +190,7 @@ public class BookManageController {
 
     public void handleShowPopup(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-            popup.show(JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT,mouseEvent.getX(), mouseEvent.getY());
+            popup.show(JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT, mouseEvent.getX(), mouseEvent.getY());
         }
     }
 }

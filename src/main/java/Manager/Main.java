@@ -23,8 +23,8 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main (String[] args) throws IOException {
-       ORMInterface.init();
-       launch(args);
+    public static void main(String[] args) throws IOException {
+        ORMInterface.init();
+        launch(args);
     }
 }

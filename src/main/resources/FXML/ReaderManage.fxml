@@ -5,22 +5,17 @@
 <?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane fx:id="readerManagePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <JFXButton layoutX="104.0" layoutY="26.0" prefHeight="48.0" prefWidth="445.0" text="添加">
-         <graphic>
-            <FontAwesomeIcon iconName="PLUS" />
-         </graphic>
-      </JFXButton>
-      <JFXTreeTableView layoutX="192.0" layoutY="84.0" prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <columns>
-            <TreeTableColumn prefWidth="150.0" text="读者卡号" />
-            <TreeTableColumn minWidth="0.0" prefWidth="100.0" text="姓名" />
-            <TreeTableColumn prefWidth="75.0" text="职业" />
-            <TreeTableColumn prefWidth="130.0" text="已借本数" />
-            <TreeTableColumn prefWidth="225.0" text="家庭住址" />
-         </columns>
-      </JFXTreeTableView>
-   </children>
+<AnchorPane fx:id="readerManagePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <JFXButton layoutX="104.0" layoutY="26.0" prefHeight="48.0" prefWidth="445.0" text="添加">
+            <graphic>
+                <FontAwesomeIcon iconName="PLUS"/>
+            </graphic>
+        </JFXButton>
+        <JFXTreeTableView layoutX="192.0" layoutY="87.0" prefHeight="513.0" prefWidth="680.0"
+                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                          AnchorPane.topAnchor="87.0"/>
+    </children>
 </AnchorPane>
