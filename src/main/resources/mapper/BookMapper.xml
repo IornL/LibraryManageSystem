@@ -6,7 +6,16 @@
     <select id="getAllBooks" resultType="Book">
         SELECT * FROM book
     </select>
+
+    <select id="selectBookById" parameterType="Integer" resultType="Book">
+        SELECT * FROM book WHERE id=#{id}
+    </select>
+
     <insert id="addBook" parameterType="Book">
         INSERT INTO book (title, publisher, pubDate) VALUES (#{title}, #{publisher}, #{pubDate})
     </insert>
+
+    <update id="updateBook" parameterType="Book">
+        update book set title=#{title},publisher=#{publisher},borrowedDate=#{borrowedDate},borrower=#{borrower},pubDate=#{pubDate},status=#{status} where id=#{id}
+    </update>
 </mapper>

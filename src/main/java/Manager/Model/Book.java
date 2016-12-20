@@ -14,6 +14,18 @@ import java.util.List;
  * Created by Iron on 2016/12/11.
  */
 public class Book extends RecursiveTreeObject<Book> {
+    public static class STATUS{
+        public static final int INSIDE = 0;
+        public static final int OUTSIDE = 1;
+        public static final int FORBIDDEN =2;
+    }
+    public static Book selectBookById(int id) {
+        SqlSession session = ORMInterface.getSession();
+        BookMapper mapper = session.getMapper(BookMapper.class);
+        Book result = mapper.selectBookById(id);
+        session.close();
+        return result;
+    }
 
     public static List<Book> getAllBooks() {
         SqlSession session = ORMInterface.getSession();
@@ -104,6 +116,7 @@ public class Book extends RecursiveTreeObject<Book> {
             return false;
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
+        // FIXME: an error
         Calendar returnCalender = getReturnCalendar();
         return now.after(returnCalender);
     }

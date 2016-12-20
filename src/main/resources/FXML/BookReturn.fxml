@@ -7,44 +7,36 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Manager.MainWindow.BookReturnController">
     <children>
         <HBox layoutY="47.0" prefHeight="100.0" prefWidth="682.0">
             <children>
                 <Label prefHeight="72.0" prefWidth="206.0" text="图书编号">
                     <font>
-                        <Font size="36.0"/>
+                        <Font size="36.0" />
                     </font>
-                    <HBox.margin>
-                        <Insets/>
-                    </HBox.margin>
+                    <!--<HBox.margin>-->
+                        <!--<Insets/>-->
+                    <!--</HBox.margin>-->
                 </Label>
-                <JFXTextField>
+                <JFXTextField fx:id="bookIdTextField">
                     <font>
-                        <Font size="28.0"/>
+                        <Font size="28.0" />
                     </font>
                 </JFXTextField>
-                <JFXButton prefHeight="58.0" prefWidth="197.0" text="还书">
+                <JFXButton onAction="#handleReturnBook" prefHeight="58.0" prefWidth="197.0" text="还书">
                     <font>
-                        <Font size="29.0"/>
+                        <Font size="29.0" />
                     </font>
-                    <HBox.margin>
-                        <Insets left="40.0"/>
-                    </HBox.margin>
+                    <!--<HBox.margin>-->
+                        <!--<Insets left="40.0"/>-->
+                    <!--</HBox.margin>-->
                 </JFXButton>
             </children>
             <padding>
-                <Insets left="30.0" top="20.0"/>
+                <Insets left="30.0" top="20.0" />
             </padding>
         </HBox>
-        <JFXTreeTableView layoutY="192.0">
-            <columns>
-                <TreeTableColumn prefWidth="170.0" text="图书编号"/>
-                <TreeTableColumn minWidth="170.0" prefWidth="170.0" text="图书名"/>
-                <TreeTableColumn prefWidth="170.0" text="归还日期"/>
-                <TreeTableColumn prefWidth="170.0" text="出版社"/>
-            </columns>
-        </JFXTreeTableView>
+        <JFXTreeTableView fx:id="bookListView" layoutY="192.0" prefHeight="410.0" prefWidth="682.0" />
     </children>
 </AnchorPane>

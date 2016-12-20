@@ -28,9 +28,6 @@ public class BaseController {
     private Node[] nodes;
 
     @FXML
-    private JFXDrawersStack drawerStack;
-
-    @FXML
     public void initialize() throws IOException {
         SharedControllers.baseController = this;
         bookBorrowPane = FXMLLoader.load(getClass().getResource("/FXML/BookBorrow.fxml"));

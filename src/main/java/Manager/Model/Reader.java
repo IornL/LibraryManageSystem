@@ -20,6 +20,14 @@ public class Reader extends RecursiveTreeObject<Reader> {
         this.name = name;
         this.address = address;
     }
+    public  Reader(int id, String name, String address, int borrowCount, boolean frozen) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.borrowCount = borrowCount;
+        this.frozen = frozen;
+    }
+
 
     public int getId() {
         return id;
@@ -37,9 +45,7 @@ public class Reader extends RecursiveTreeObject<Reader> {
         return borrowCount;
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
     public void setName(String name) {
         this.name = name;
@@ -67,6 +73,15 @@ public class Reader extends RecursiveTreeObject<Reader> {
         List<Reader> readers = mapper.getAllReaders();
         session.close();
         return readers;
+    }
+
+    public static Reader selectReaderById(int id) {
+        SqlSession session = ORMInterface.getSession();
+        ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+        Reader result = mapper.selectReaderById(id);
+        session.close();
+        return result;
+
     }
 
     public void save() {

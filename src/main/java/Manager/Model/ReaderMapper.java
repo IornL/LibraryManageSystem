@@ -1,5 +1,7 @@
 package Manager.Model;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -14,4 +16,6 @@ public interface ReaderMapper {
     public void addReader(Reader reader);
 
     public void deleteReader(Reader reader);
+
+    public Reader selectReaderById(@Param("id")int id);
 }

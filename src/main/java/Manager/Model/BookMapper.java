@@ -1,5 +1,7 @@
 package Manager.Model;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -14,4 +16,5 @@ public interface BookMapper {
 
     public void deleteBook(Book book);
 
+    public Book selectBookById(@Param("id") int id);
 }

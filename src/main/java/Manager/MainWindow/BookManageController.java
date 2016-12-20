@@ -92,9 +92,9 @@ public class BookManageController {
                 e.printStackTrace();
             }
             switch (param.getValue().getValue().getStatus()) {
-                case 1:
+                case Book.STATUS.OUTSIDE:
                     return new SimpleStringProperty("外借");
-                case 2:
+                case Book.STATUS.FORBIDDEN:
                     return new SimpleStringProperty("禁借");
                 default:
                     return new SimpleStringProperty("在馆");
