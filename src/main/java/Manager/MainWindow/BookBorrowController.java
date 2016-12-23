@@ -2,6 +2,7 @@ package Manager.MainWindow;
 
 import Manager.Model.Book;
 import Manager.Model.Reader;
+import Manager.shared.Util;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -13,8 +14,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -23,6 +26,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class BookBorrowController {
 
+    public Label messageLabel;
     @FXML
     private JFXTextField bookIdTextField;
 
@@ -55,34 +59,36 @@ public class BookBorrowController {
         bookListView.setShowRoot(false);
     }
 
-    public void handleBorrow(ActionEvent event) {
+    public void handleBorrow(ActionEvent event) throws ParseException {
         int bookId = -1, readerId = -1;
         try {
             bookId = Integer.parseInt(bookIdTextField.getText());
             readerId = Integer.parseInt(readerIdTextField.getText());
         } catch (NumberFormatException e) {
-            //TODO: show a dialog for invalid input .
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "您的输入有误，请重新输入");
         }
         Book book = Book.selectBookById(bookId);
         Reader reader = Reader.selectReaderById(readerId);
         if (book != null && reader != null) {
             if (reader.isFrozen()) {
-                // TODO: show dialog for reader is frozen
+                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该账号已被续");
                 return;
             }
-            // TODO: judge whether reader have overdue book
-
+            if (reader.checkOverDue()) {
+                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该账号有超期图书，无法借阅");
+                return;
+            }
             if (book.getStatus() != Book.STATUS.INSIDE) {
-                //TODO: show a dialog for book has been borrowed
+                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该书已被外借");
             }
             book.setBorrowedDate(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
             book.setBorrower(reader.getId());
             book.setStatus(Book.STATUS.OUTSIDE);
             book.save();
-            // TODO: A message for success
+            flashTable(reader);
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "借阅成功");
         } else {
-            //TODO: Add a dialog for book or reader is not exist
+                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书或读者不存在");
         }
-        flashTable(reader);
     }
 }

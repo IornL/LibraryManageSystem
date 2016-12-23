@@ -1,6 +1,6 @@
 package Manager.MainWindow;
 
-import com.jfoenix.controls.JFXDrawersStack;
+import Manager.shared.SharedController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,7 +29,7 @@ public class BaseController {
 
     @FXML
     public void initialize() throws IOException {
-        SharedControllers.baseController = this;
+        SharedController.baseController = this;
         bookBorrowPane = FXMLLoader.load(getClass().getResource("/FXML/BookBorrow.fxml"));
         bookReturnPane = FXMLLoader.load(getClass().getResource("/FXML/BookReturn.fxml"));
         bookManagePane = FXMLLoader.load(getClass().getResource("/FXML/BookManage.fxml"));

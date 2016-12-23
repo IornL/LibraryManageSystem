@@ -4,6 +4,7 @@ import Manager.ORMInterface;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.apache.ibatis.session.SqlSession;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -108,6 +109,17 @@ public class Reader extends RecursiveTreeObject<Reader> {
         mapper.deleteReader(this);
         session.commit();
         session.close();
+    }
+
+    public boolean checkOverDue() throws ParseException {
+        SqlSession session = ORMInterface.getSession();
+        ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+        List<Book> books= mapper.getBorrowedBooks(getId());
+        for(Book book: books) {
+            if (book.isOverdue())
+                return true;
+        }
+        return false;
     }
 
 }

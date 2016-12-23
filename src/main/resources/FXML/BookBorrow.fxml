@@ -47,6 +47,7 @@
             </children>
         </HBox>
         <JFXTreeTableView fx:id="bookListView" layoutY="355.0" prefHeight="245.0" prefWidth="680.0" />
-        <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="209.0" onAction="#handleBorrow" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: #ffffff;" text="借阅/续借" />
+        <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="190.0" onAction="#handleBorrow" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: #ffffff;" text="借阅/续借" />
+      <Label fx:id="messageLabel" layoutX="82.0" layoutY="308.0" prefHeight="47.0" prefWidth="507.0" textAlignment="CENTER" textFill="RED" />
     </children>
 </AnchorPane>

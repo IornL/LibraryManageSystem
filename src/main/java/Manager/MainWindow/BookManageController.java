@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTablePosition;
@@ -26,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import Manager.shared.Util;
 
 /**
  * Created by Iron on 2016/12/9.
@@ -33,10 +35,16 @@ import java.util.Objects;
 public class BookManageController {
 
     public JFXTextField titleTextField;
+
     public JFXTextField publisherTextFiled;
+
     public JFXDatePicker pubDatePicker;
+
     public JFXPopup popup;
+
     public VBox popupContentVBox;
+    public Label messageLabel;
+
     @FXML
     private JFXTreeTableView<Book> bookListView;
 
@@ -154,6 +162,7 @@ public class BookManageController {
         book.setPubDate(date);
         book.save();
         flashTable();
+        Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "读者添加成功");
     }
 
     public void handleOpenBookAddDialog(ActionEvent event) {
@@ -176,6 +185,7 @@ public class BookManageController {
     public void handleCancelAddBook(ActionEvent event) {
         bookAddPane.setVisible(false);
         bookManagePane.setVisible(true);
+        flashTable();
     }
 
     public void handleDeleteRow(ActionEvent event) {
@@ -186,8 +196,6 @@ public class BookManageController {
             book.getParent().getChildren().remove(book);
             book.getValue().delete();
             popup.close();
-
-
         }
     }
 

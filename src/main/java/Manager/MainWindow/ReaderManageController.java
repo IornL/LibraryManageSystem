@@ -12,8 +12,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
+import Manager.shared.Util;
 
 /**
  * Created by Iron on 2016/12/12.
@@ -23,6 +25,7 @@ public class ReaderManageController {
     public JFXTextField nameTextField;
     public JFXTextField addressTextField;
     public JFXTreeTableView<Reader> userListView;
+    public Label messageLabel;
     @FXML
     private AnchorPane readerManagePane;
 
@@ -82,13 +85,14 @@ public class ReaderManageController {
         reader.save();
         nameTextField.clear();
         addressTextField.clear();
-        //TODO add message for success info
+        Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "读者添加成功");
     }
 
     @FXML
     void handleReturn(ActionEvent event) {
         readerManagePane.setVisible(true);
         addReaderDialog.setVisible(false);
+        flashTable();
     }
 
 }

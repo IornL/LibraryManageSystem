@@ -7,59 +7,48 @@
 <?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="680.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Manager.MainWindow.BookManageController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Manager.MainWindow.BookManageController">
     <children>
-        <AnchorPane fx:id="bookManagePane" prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0"
-                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane fx:id="bookManagePane" prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <JFXButton layoutX="40.0" layoutY="-24.0" onAction="#handleOpenBookAddDialog" prefHeight="43.0"
-                           prefWidth="572.0" text="添加图书">
+                <JFXButton layoutX="42.0" layoutY="-61.0" onAction="#handleOpenBookAddDialog" prefHeight="43.0" prefWidth="572.0" text="添加图书">
                     <graphic>
-                        <FontAwesomeIcon iconName="PLUS"/>
+                        <FontAwesomeIcon iconName="PLUS" />
                     </graphic>
                 </JFXButton>
-                <JFXTreeTableView fx:id="bookListView" editable="true" onMouseClicked="#handleShowPopup"
-                                  prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0"
-                                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.0"/>
+                <JFXTreeTableView fx:id="bookListView" editable="true" onMouseClicked="#handleShowPopup" prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.0" />
                 <JFXPopup fx:id="popup">
                     <children>
                         <VBox fx:id="popupContentVBox">
                             <children>
-                                <JFXButton onAction="#handleDeleteRow" buttonType="RAISED" prefHeight="20.0"
-                                           prefWidth="50.0" style="-fx-background-color: lightpink" text="删除"/>
+                                <JFXButton buttonType="RAISED" onAction="#handleDeleteRow" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: lightpink" text="删除" />
                             </children>
                         </VBox>
                     </children>
                 </JFXPopup>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="bookAddPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                    minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" visible="false">
+        <AnchorPane fx:id="bookAddPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" visible="false">
             <children>
-                <JFXButton layoutX="391.0" layoutY="482.0" onAction="#handleCancelAddBook" prefHeight="74.0"
-                           prefWidth="234.0" text="取消"/>
-                <JFXButton layoutX="40.0" layoutY="482.0" onAction="#handleAddBook" prefHeight="74.0" prefWidth="210.0"
-                           text="添加"/>
-                <JFXTextField fx:id="titleTextField" layoutX="53.0" layoutY="118.0" maxWidth="587.0" minWidth="406.0"
-                              prefHeight="99.0" prefWidth="587.0" promptText="图书名">
+                <JFXButton layoutX="391.0" layoutY="482.0" onAction="#handleCancelAddBook" prefHeight="74.0" prefWidth="234.0" text="取消" />
+                <JFXButton layoutX="40.0" layoutY="482.0" onAction="#handleAddBook" prefHeight="74.0" prefWidth="210.0" text="添加" />
+                <JFXTextField fx:id="titleTextField" layoutX="53.0" layoutY="118.0" maxWidth="587.0" minWidth="406.0" prefHeight="99.0" prefWidth="587.0" promptText="图书名">
                     <font>
-                        <Font size="48.0"/>
+                        <Font size="48.0" />
                     </font>
                 </JFXTextField>
-                <JFXTextField fx:id="publisherTextFiled" layoutX="53.0" layoutY="254.0" maxWidth="587.0"
-                              minWidth="460.0" prefHeight="99.0" prefWidth="587.0" promptText="出版社">
+                <JFXTextField fx:id="publisherTextFiled" layoutX="53.0" layoutY="254.0" maxWidth="587.0" minWidth="460.0" prefHeight="99.0" prefWidth="587.0" promptText="出版社">
                     <font>
-                        <Font size="48.0"/>
+                        <Font size="48.0" />
                     </font>
                 </JFXTextField>
-                <JFXDatePicker fx:id="pubDatePicker" layoutX="51.0" layoutY="378.0" prefHeight="85.0" prefWidth="578.0"
-                               promptText="出版日期"/>
+                <Label fx:id="messageLabel" prefHeight="60.0" prefWidth="625.0" />
+                <JFXDatePicker fx:id="pubDatePicker" layoutX="51.0" layoutY="378.0" prefHeight="85.0" prefWidth="578.0" promptText="出版日期" />
             </children>
         </AnchorPane>
     </children>
     <padding>
-        <Insets top="70.0"/>
+        <Insets top="70.0" />
     </padding>
 </AnchorPane>
