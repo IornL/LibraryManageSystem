@@ -10,6 +10,10 @@
         select * from reader WHERE id=#{id};
     </select>
 
+    <select id="getBorrowedBooks" parameterType="Integer" resultType="Book">
+        select * from book WHERE borrower=#{borrower};
+    </select>
+
     <update id="updateReader" parameterType="Reader">
         update reader set name = #{name}, address=#{address}, frozen=#{frozen} where id=#{id};
     </update>
@@ -21,4 +25,5 @@
     <delete id="deleteReader" parameterType="Reader">
         DELETE FROM reader WHERE id = #{id};
     </delete>
+
 </mapper>

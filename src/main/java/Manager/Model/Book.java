@@ -116,15 +116,15 @@ public class Book extends RecursiveTreeObject<Book> {
             return false;
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
-        // FIXME: an error
+
         Calendar returnCalender = getReturnCalendar();
-        return now.after(returnCalender);
+        return now.before(returnCalender);
     }
 
     public Calendar getReturnCalendar() throws ParseException {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new SimpleDateFormat("YYYY MM DD").parse(this.borrowedDate));
-        calendar.add(Calendar.DATE, 30);
+        calendar.setTime(new SimpleDateFormat("YYYY-MM-DD").parse(this.borrowedDate));
+        calendar.add(Calendar.MONTH, 1);
         return calendar;
     }
 

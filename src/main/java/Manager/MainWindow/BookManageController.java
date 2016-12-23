@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -121,14 +122,16 @@ public class BookManageController {
         JFXTreeTableColumn<Book, String> returnDateColumn = new JFXTreeTableColumn<Book, String>("应还日期");
 //        returnDateColumn.setPrefWidth(95);
         returnDateColumn.setCellValueFactory(param -> {
-            Calendar returnCalendar = null;
-            try {
-                returnCalendar = param.getValue().getValue().getReturnCalendar();
-            } catch (ParseException e) {
-                return new SimpleStringProperty("N/A");
+            String dateString = null;
+            if (!Objects.equals(param.getValue().getValue().getBorrowedDate(), "null")) {
+                try {
+                    Calendar calendar = param.getValue().getValue().getReturnCalendar();
+                    dateString = new SimpleDateFormat("YYYY-MM-DD").format(calendar.getTime());
+                } catch (ParseException e) {
+                    dateString = "N/A";
+                }
             }
-            String returnDate = String.format("%d-%d-%d", returnCalendar.get(Calendar.YEAR), returnCalendar.get(Calendar.MONTH), returnCalendar.get(Calendar.DATE));
-            return new SimpleStringProperty(returnDate);
+            return new SimpleStringProperty(dateString);
         });
 
         bookListView.getColumns().setAll(idColumn, titleColumn, publisherColumn, pubDateColumn, statusColumn, borrowerColumn, borrowedDateColumn, returnDateColumn);

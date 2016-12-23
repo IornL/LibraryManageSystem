@@ -84,6 +84,13 @@ public class Reader extends RecursiveTreeObject<Reader> {
 
     }
 
+    public List<Book> getBorrowedBooks() {
+        SqlSession session = ORMInterface.getSession();
+        ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+        List<Book> result = mapper.getBorrowedBooks(getId());
+        session.close();
+        return result;
+    }
     public void save() {
         SqlSession session = ORMInterface.getSession();
         ReaderMapper mapper = session.getMapper(ReaderMapper.class);
