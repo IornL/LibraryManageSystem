@@ -1,8 +1,7 @@
 package Manager.MainWindow;
 
-import Manager.Model.Book;
+import Manager.Model.BookLog;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -23,56 +22,56 @@ import java.util.List;
 public class BookReturnController {
 
     public Label messageLabel;
-    private List<Book> bookList;
+    private List<BookLog> bookLogList;
 
     public JFXTextField bookIdTextField;
     @FXML
-    private JFXTreeTableView<Book> bookListView;
+    private JFXTreeTableView<BookLog> bookListView;
 
     public void initialize() {
-        bookList = new ArrayList<>();
-        JFXTreeTableColumn<Book, Integer> idColumn = new JFXTreeTableColumn<>("图书编号");
+        bookLogList = new ArrayList<>();
+        JFXTreeTableColumn<BookLog, Integer> idColumn = new JFXTreeTableColumn<>("图书编号");
         idColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getId()));
 
-        JFXTreeTableColumn<Book, String> titleColumn = new JFXTreeTableColumn<>("书名");
-        titleColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getTitle()));
+        JFXTreeTableColumn<BookLog, String> titleColumn = new JFXTreeTableColumn<>("书名");
+//        titleColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getTitle()));
 
-        JFXTreeTableColumn<Book, String> publisherColumn = new JFXTreeTableColumn<>("出版社");
-        publisherColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPublisher()));
+        JFXTreeTableColumn<BookLog, String> publisherColumn = new JFXTreeTableColumn<>("出版社");
+//        publisherColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPublisher()));
 
         bookListView.getColumns().addAll(idColumn, titleColumn, publisherColumn);
         flashTable();
     }
 
     public void handleReturnBook(ActionEvent event) {
-        Book book = null;
-        try{
-            book = Book.selectBookById(Integer.parseInt(bookIdTextField.getText()));
-        }
-        catch (NumberFormatException e) {
-            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "您的输入有误，请重新输入");
-            return;
-        }
-        if (book == null) {
-            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书不存在");
-            return;
-        }
-        if (book.getStatus() != Book.STATUS.OUTSIDE){
-            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书已在馆，无需归还");
-            return;
-        }
-        book.setStatus(Book.STATUS.INSIDE);
-        book.setBorrower(null);
-        book.setBorrowedDate("null");
-        book.save();
-        bookList.add(book);
-        flashTable();
-        Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "图书归还成功");
+//        BookLog bookLog = null;
+//        try{
+//            bookLog = BookLog.selectBookById(Integer.parseInt(bookIdTextField.getText()));
+//        }
+//        catch (NumberFormatException e) {
+//            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "您的输入有误，请重新输入");
+//            return;
+//        }
+//        if (bookLog == null) {
+//            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书不存在");
+//            return;
+//        }
+//        if (bookLog.getStatus() != BookLog.STATUS.OUTSIDE){
+//            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书已在馆，无需归还");
+//            return;
+//        }
+//        bookLog.setStatus(BookLog.STATUS.INSIDE);
+//        bookLog.setBorrower(null);
+//        bookLog.setBorrowedDate("null");
+//        bookLog.save();
+//        bookLogList.add(bookLog);
+//        flashTable();
+//        Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "图书归还成功");
     }
 
     public void flashTable() {
-        ObservableList<Book> books = FXCollections.observableArrayList(bookList);
-        final TreeItem<Book> root = new RecursiveTreeItem<Book>(books, RecursiveTreeObject::getChildren);
+        ObservableList<BookLog> bookLogs = FXCollections.observableArrayList(bookLogList);
+        final TreeItem<BookLog> root = new RecursiveTreeItem<BookLog>(bookLogs, RecursiveTreeObject::getChildren);
         bookListView.setRoot(root);
         bookListView.setShowRoot(false);
     }

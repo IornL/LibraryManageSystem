@@ -8,7 +8,7 @@
         <result property="address" column="address"/>
     </resultMap>
     <select id="getAllReaders" resultType="Reader" resultMap="ReaderMap">
-        select * from reader LEFT JOIN book ON reader.reader_id = book.borrower_id;
+        select * from reader LEFT JOIN book2 ON reader.reader_id = book2.borrower_id;
     </select>
 
     <select id="selectReaderById" resultType="Reader">
@@ -16,7 +16,7 @@
     </select>
 
     <select id="getBorrowedBooks" parameterType="Integer" resultType="Book">
-        select * from book WHERE borrower_id=#{borrower};
+        select * from book2 WHERE borrower_id=#{borrower};
     </select>
 
     <update id="updateReader" parameterType="Reader">

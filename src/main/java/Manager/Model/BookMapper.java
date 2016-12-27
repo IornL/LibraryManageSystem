@@ -8,11 +8,11 @@ import java.util.List;
  * Created by Iron on 2016/12/12.
  */
 public interface BookMapper {
-    public List<Book> getAllBooks();
+    public List<Book> selectAllBooks();
 
     public void updateBook(Book book);
 
-    public void addBook(Book book);
+    public void addBook(Book boo);
 
     public void deleteBook(Book book);
 

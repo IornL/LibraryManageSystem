@@ -3,37 +3,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Manager.Model.BookMapper">
-    <resultMap id="bookMap" type="Book">
+    <resultMap id="BookMap" type="Book">
         <id column="book_id" property="id" />
-        <result column="status" property="status"/>
         <result column="title" property="title" />
         <result column="publisher" property="publisher"/>
-        <result column="borrowedDate" property="borrowedDate"/>
-        <result column="pubDate" property="pubDate"/>
-        <result column="borrower" property="borrowerId"/>
-        <association property="borrower" javaType="Reader" resultMap="Manager.Model.ReaderMapper.ReaderMap"/>
+        <result column="pub_date" property="pubDate"/>
+        <result column="ISBN" property="ISBN"/>
+        <result column="category_id" property="id"/>
+        <result column="amount" property="amount"/>
+        <association property="category" column="category_id" javaType="Category" resultMap="Manager.Model.BookCategoryMapper.CategoryMap"/>
     </resultMap>
-    <select id="getAllBooks" resultMap="bookMap">
-        SELECT
-        book.book_id, book.title, book.publisher, book.pubDate ,book.borrowedDate, book.borrower_id, book.status, reader.reader_id, reader.name, reader.address, reader.frozen
-        FROM book LEFT JOIN reader ON book.borrower_id = reader.reader_id
+    <select id="selectAllBooks" resultMap="bookMap">
+      SELECT log_id, book.*, book_category.* ,reader.*, borrowed_date  FROM book_log
+      INNER JOIN book ON book_log.book_id=book.book_id
+      INNER JOIN reader ON book_log.reader_id = reader.reader_id
+      INNER JOIN book_category ON book.category_id = book_category.category_id
     </select>
-
     <select id="selectBookById" parameterType="Integer" resultMap="bookMap">
-        SELECT
-        book.book_id, book.title, book.publisher, book.pubDate ,book.borrowedDate, book.borrower_id, book.status, reader.reader_id, reader.name, reader.address, reader.frozen
-        FROM book LEFT JOIN reader ON book.borrower_id = reader.reader_id
-        WHERE book_id=#{id}
+      SELECT log_id, book.*, book_category.* ,reader.*, borrowed_date  FROM book_log
+      INNER JOIN book ON book_log.book_id=book.book_id
+      INNER JOIN reader ON book_log.reader_id = reader.reader_id
+      INNER JOIN book_category ON book.category_id = book_category.category_id
+      WHERE log_id = #{id}
     </select>
 
     <insert id="addBook" parameterType="Book">
-        INSERT INTO book (title, publisher, pubDate) VALUES (#{title}, #{publisher}, #{pubDate})
+       INSERT INTO book_log (book_id, reader_id, borrowed_date) INTO (#{bookId},#{readerId},#{borrowedDate})
     </insert>
 
     <update id="updateBook" parameterType="Book">
-        update book set title=#{title},publisher=#{publisher},borrowedDate=#{borrowedDate},status=#{status},borrower_id=#{borrowerId}
+        update book2 set title=#{title},publisher=#{publisher},borrowedDate=#{borrowedDate},status=#{status},borrower_id=#{borrowerId}
     </update>
     <delete id="deleteBook" parameterType="Book">
-        DELETE FROM book WHERE book_id = #{id}
+        DELETE FROM book2 WHERE book_id = #{id}
     </delete>
 </mapper>

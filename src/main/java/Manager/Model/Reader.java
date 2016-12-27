@@ -82,7 +82,7 @@ public class Reader extends RecursiveTreeObject<Reader> {
         }
     }
 
-    public List<Book> getBorrowedBooks() {
+    public List<BookLog> getBorrowedBooks() {
         try (SqlSession session = ORMInterface.getSession()) {
             ReaderMapper mapper = session.getMapper(ReaderMapper.class);
             return mapper.getBorrowedBooks(getId());
@@ -107,15 +107,14 @@ public class Reader extends RecursiveTreeObject<Reader> {
     }
 
     public boolean checkOverDue() throws ParseException {
-        try (SqlSession session = ORMInterface.getSession()) {
-            ReaderMapper mapper = session.getMapper(ReaderMapper.class);
-            List<Book> books= mapper.getBorrowedBooks(getId());
-            for(Book book: books) {
-            if (book.isOverdue())
-                return true;
-            }
+//        try (SqlSession session = ORMInterface.getSession()) {
+//            ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+//            List<BookLog> bookLogs = mapper.getBorrowedBooks(getId());
+//            for(BookLog bookLog : bookLogs) {
+//            if (bookLog.isOverdue())
+//                return true;
+//            }
             return false;
-        }
     }
 
 }

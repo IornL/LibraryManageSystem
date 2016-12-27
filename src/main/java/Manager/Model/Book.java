@@ -4,93 +4,46 @@ import Manager.ORMInterface;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.apache.ibatis.session.SqlSession;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Iron on 2016/12/11.
+ * Created by Iron on 2016/12/27.
  */
 public class Book extends RecursiveTreeObject<Book> {
-    public static class STATUS{
-        public static final int INSIDE = 0;
-        public static final int OUTSIDE = 1;
-        public static final int FORBIDDEN =2;
-    }
-    public static Book selectBookById(int id) {
-        try (SqlSession session = ORMInterface.getSession()) {
-            BookMapper mapper = session.getMapper(BookMapper.class);
-            return mapper.selectBookById(id);
-        }
-    }
-
-    public static List<Book> getAllBooks() {
-        try (SqlSession session = ORMInterface.getSession()) {
-            BookMapper mapper = session.getMapper(BookMapper.class);
-            return mapper.getAllBooks();
-        }
-    }
-
-
-    private int id, status, borrowerId;
-    private String title, publisher, borrowedDate, pubDate;
-    private Reader borrower;
-    public Book() {
-    }
-
-    ;
-
-    public Book(int id, String title, String publisher, String borrowedDate, Reader borrower, String pubDate, int status) {
-        this.id = id;
-        this.title = title;
-        this.publisher = publisher;
-        this.borrowedDate = borrowedDate;
-        this.borrower = borrower;
-        this.pubDate = pubDate;
-        this.status = status;
-    }
-
+    private int id, amount, categoryId, restAmount;
+    private String title, pubDate, ISBN, publisher;
+    private BookCategory category;
 
     public void setId(int id) {
         this.id = id;
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
-    public int getStatus() {
-        return this.status;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getTitle() {
-        return this.title;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
     }
 
-    public String getPublisher() {
-        return this.publisher;
-    }
-
-    public void setBorrowedDate(String borrowedDate) {
-        this.borrowedDate = borrowedDate;
-    }
-
-    public String getBorrowedDate() {
-        return this.borrowedDate;
+    public String getISBN() {
+        return ISBN;
     }
 
     public void setPubDate(String pubDate) {
@@ -98,58 +51,63 @@ public class Book extends RecursiveTreeObject<Book> {
     }
 
     public String getPubDate() {
-        return this.pubDate;
+        return pubDate;
     }
 
-    public Reader getBorrower() {
-        return this.borrower;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setBorrower(Reader borrower) {
-        this.borrower = borrower;
-        setBorrowerId(borrower.getId());
-    }
-    public int getBorrowerId() {
-        return borrowerId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBorrowerId(int borrowerId) {
-        this.borrowerId = borrowerId;
+    public int getRestAmount() {
+        return restAmount;
     }
 
-    public boolean isOverdue() throws ParseException {
-        if (this.getBorrowedDate().equals("null"))
-            return false;
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
-
-        Calendar returnCalender = getReturnCalendar();
-        return now.before(returnCalender);
+    public void setRestAmount(int restAmount) {
+        this.restAmount = restAmount;
     }
 
-    public Calendar getReturnCalendar() throws ParseException {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new SimpleDateFormat("YYYY-MM-DD").parse(this.borrowedDate));
-        calendar.add(Calendar.MONTH, 1);
-        return calendar;
+    public BookCategory getCategory() {
+        return category;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setCategory(BookCategory category) {
+        this.category = category;
+    }
+
+    public static List<Book> selectAllBooks() {
+        try(SqlSession session = ORMInterface.getSession()) {
+            BookMapper mapper = session.getMapper(BookMapper.class);
+            return mapper.selectAllBooks();
+        }
     }
 
     public void save() {
-        try (SqlSession session = ORMInterface.getSession()) {
+        try(SqlSession session = ORMInterface.getSession()) {
             BookMapper mapper = session.getMapper(BookMapper.class);
-            if (this.getId() != 0)
+            if(getId() == 0) {
                 mapper.updateBook(this);
-            else
-                mapper.addBook(this);
-            session.commit();
+            } else {
+                mapper.updateBook(this);
+            }
         }
     }
 
     public void delete() {
-        try (SqlSession session = ORMInterface.getSession()) {
+        try(SqlSession session = ORMInterface.getSession()) {
             BookMapper mapper = session.getMapper(BookMapper.class);
             mapper.deleteBook(this);
-            session.commit();
         }
     }
 }
