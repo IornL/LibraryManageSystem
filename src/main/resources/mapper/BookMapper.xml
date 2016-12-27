@@ -18,4 +18,7 @@
     <update id="updateBook" parameterType="Book">
         update book set title=#{title},publisher=#{publisher},borrowedDate=#{borrowedDate},borrower=#{borrower},pubDate=#{pubDate},status=#{status} where id=#{id}
     </update>
+    <delete id="deleteBook" parameterType="Book">
+        DELETE FROM book WHERE id = #{id}
+    </delete>
 </mapper>
