@@ -9,11 +9,10 @@ import org.apache.ibatis.session.SqlSession;
 public class Admin {
 
     public static Admin selectAdmin(String id, String password) {
-        SqlSession session = ORMInterface.getSession();
-        AdminMapper mapper = session.getMapper(AdminMapper.class);
-        Admin resultAdmin = mapper.selectAdminByID(id, password);
-        session.close();
-        return resultAdmin;
+        try (SqlSession session = ORMInterface.getSession()) {
+            AdminMapper mapper = session.getMapper(AdminMapper.class);
+            return mapper.selectAdminByID(id, password);
+        }
     }
 
     private String id, password;

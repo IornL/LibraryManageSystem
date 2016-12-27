@@ -1,6 +1,7 @@
 package Manager.MainWindow;
 
 import Manager.Model.Book;
+import Manager.Model.Reader;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleObjectProperty;
@@ -113,10 +114,12 @@ public class BookManageController {
         JFXTreeTableColumn<Book, String> borrowerColumn = new JFXTreeTableColumn<Book, String>("借阅者");
         borrowerColumn.setPrefWidth(97.14);
         borrowerColumn.setCellValueFactory(param -> {
-            int borrower = param.getValue().getValue().getBorrower();
-            if (borrower != 0) {
-                return new SimpleStringProperty(Integer.toString(borrower));
-            } else return new SimpleStringProperty("N/A");
+            Reader borrower = param.getValue().getValue().getBorrower();
+            if (borrower != null) {
+                return new SimpleStringProperty(borrower.getName());
+            } else {
+                return new SimpleStringProperty("N/A");
+            }
         });
 
         JFXTreeTableColumn<Book, String> borrowedDateColumn = new JFXTreeTableColumn<Book, String>("借阅日期");

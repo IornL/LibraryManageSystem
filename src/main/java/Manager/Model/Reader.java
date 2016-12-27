@@ -69,57 +69,53 @@ public class Reader extends RecursiveTreeObject<Reader> {
     }
 
     public static List<Reader> getAllReaders() {
-        SqlSession session = ORMInterface.getSession();
-        ReaderMapper mapper = session.getMapper(ReaderMapper.class);
-        List<Reader> readers = mapper.getAllReaders();
-        session.close();
-        return readers;
+        try (SqlSession session = ORMInterface.getSession()) {
+            ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+            return mapper.getAllReaders();
+        }
     }
 
     public static Reader selectReaderById(int id) {
-        SqlSession session = ORMInterface.getSession();
-        ReaderMapper mapper = session.getMapper(ReaderMapper.class);
-        Reader result = mapper.selectReaderById(id);
-        session.close();
-        return result;
-
+        try (SqlSession session = ORMInterface.getSession()) {
+            ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+            return mapper.selectReaderById(id);
+        }
     }
 
     public List<Book> getBorrowedBooks() {
-        SqlSession session = ORMInterface.getSession();
-        ReaderMapper mapper = session.getMapper(ReaderMapper.class);
-        List<Book> result = mapper.getBorrowedBooks(getId());
-        session.close();
-        return result;
+        try (SqlSession session = ORMInterface.getSession()) {
+            ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+            return mapper.getBorrowedBooks(getId());
+        }
     }
     public void save() {
-        SqlSession session = ORMInterface.getSession();
-        ReaderMapper mapper = session.getMapper(ReaderMapper.class);
-        if (getId() == 0)
-            mapper.addReader(this);
-        else
-            mapper.updateReader(this);
-        session.commit();
-        session.close();
+        try (SqlSession session = ORMInterface.getSession()) {
+            ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+            if (getId() == 0)
+                mapper.addReader(this);
+            else
+                mapper.updateReader(this);
+            session.commit();
+        }
     }
-
     public void delete() {
-        SqlSession session = ORMInterface.getSession();
-        ReaderMapper mapper = session.getMapper(ReaderMapper.class);
-        mapper.deleteReader(this);
-        session.commit();
-        session.close();
+        try (SqlSession session = ORMInterface.getSession()) {
+            ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+            mapper.deleteReader(this);
+            session.commit();
+        }
     }
 
     public boolean checkOverDue() throws ParseException {
-        SqlSession session = ORMInterface.getSession();
-        ReaderMapper mapper = session.getMapper(ReaderMapper.class);
-        List<Book> books= mapper.getBorrowedBooks(getId());
-        for(Book book: books) {
+        try (SqlSession session = ORMInterface.getSession()) {
+            ReaderMapper mapper = session.getMapper(ReaderMapper.class);
+            List<Book> books= mapper.getBorrowedBooks(getId());
+            for(Book book: books) {
             if (book.isOverdue())
                 return true;
+            }
+            return false;
         }
-        return false;
     }
 
 }

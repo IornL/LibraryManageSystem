@@ -2,20 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Manager.Model.ReaderMapper">
-    <select id="getAllReaders" resultType="Reader">
-        select reader.id, reader.name, reader.address, reader.frozen, COUNT (book.id)from reader LEFT JOIN book ON reader.id = book.borrower;
+    <resultMap id="ReaderMap" type="Reader">
+        <id property="id" column="reader_id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+    </resultMap>
+    <select id="getAllReaders" resultType="Reader" resultMap="ReaderMap">
+        select * from reader LEFT JOIN book ON reader.reader_id = book.borrower_id;
     </select>
 
     <select id="selectReaderById" resultType="Reader">
-        select * from reader WHERE id=#{id};
+        select * from reader WHERE reader_id=#{id};
     </select>
 
     <select id="getBorrowedBooks" parameterType="Integer" resultType="Book">
-        select * from book WHERE borrower=#{borrower};
+        select * from book WHERE borrower_id=#{borrower};
     </select>
 
     <update id="updateReader" parameterType="Reader">
-        update reader set name = #{name}, address=#{address}, frozen=#{frozen} where id=#{id};
+        update reader set name = #{name}, address=#{address}, frozen=#{frozen} where reader_id=#{id};
     </update>
 
     <insert id="addReader" parameterType="Reader">
@@ -23,7 +28,7 @@
     </insert>
 
     <delete id="deleteReader" parameterType="Reader">
-        DELETE FROM reader WHERE id = #{id};
+        DELETE FROM reader WHERE reader_id = #{id};
     </delete>
 
 </mapper>

@@ -82,7 +82,7 @@ public class BookBorrowController {
                 Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该书已被外借");
             }
             book.setBorrowedDate(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
-            book.setBorrower(reader.getId());
+            book.setBorrower(reader);
             book.setStatus(Book.STATUS.OUTSIDE);
             book.save();
             flashTable(reader);

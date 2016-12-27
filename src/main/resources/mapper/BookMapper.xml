@@ -3,12 +3,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Manager.Model.BookMapper">
-    <select id="getAllBooks" resultType="Book">
-        SELECT * FROM book
+    <resultMap id="bookMap" type="Book">
+        <id column="book_id" property="id" />
+        <result column="status" property="status"/>
+        <result column="title" property="title" />
+        <result column="publisher" property="publisher"/>
+        <result column="borrowedDate" property="borrowedDate"/>
+        <result column="pubDate" property="pubDate"/>
+        <result column="borrower" property="borrowerId"/>
+        <association property="borrower" javaType="Reader" resultMap="Manager.Model.ReaderMapper.ReaderMap"/>
+    </resultMap>
+    <select id="getAllBooks" resultMap="bookMap">
+        SELECT
+        book.book_id, book.title, book.publisher, book.pubDate ,book.borrowedDate, book.borrower_id, book.status, reader.reader_id, reader.name, reader.address, reader.frozen
+        FROM book LEFT JOIN reader ON book.borrower_id = reader.reader_id
     </select>
 
-    <select id="selectBookById" parameterType="Integer" resultType="Book">
-        SELECT * FROM book WHERE id=#{id}
+    <select id="selectBookById" parameterType="Integer" resultMap="bookMap">
+        SELECT
+        book.book_id, book.title, book.publisher, book.pubDate ,book.borrowedDate, book.borrower_id, book.status, reader.reader_id, reader.name, reader.address, reader.frozen
+        FROM book LEFT JOIN reader ON book.borrower_id = reader.reader_id
+        WHERE book_id=#{id}
     </select>
 
     <insert id="addBook" parameterType="Book">
@@ -16,9 +31,9 @@
     </insert>
 
     <update id="updateBook" parameterType="Book">
-        update book set title=#{title},publisher=#{publisher},borrowedDate=#{borrowedDate},borrower=#{borrower},pubDate=#{pubDate},status=#{status} where id=#{id}
+        update book set title=#{title},publisher=#{publisher},borrowedDate=#{borrowedDate},status=#{status},borrower_id=#{borrowerId}
     </update>
     <delete id="deleteBook" parameterType="Book">
-        DELETE FROM book WHERE id = #{id}
+        DELETE FROM book WHERE book_id = #{id}
     </delete>
 </mapper>

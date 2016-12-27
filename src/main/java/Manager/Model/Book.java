@@ -20,31 +20,29 @@ public class Book extends RecursiveTreeObject<Book> {
         public static final int FORBIDDEN =2;
     }
     public static Book selectBookById(int id) {
-        SqlSession session = ORMInterface.getSession();
-        BookMapper mapper = session.getMapper(BookMapper.class);
-        Book result = mapper.selectBookById(id);
-        session.close();
-        return result;
+        try (SqlSession session = ORMInterface.getSession()) {
+            BookMapper mapper = session.getMapper(BookMapper.class);
+            return mapper.selectBookById(id);
+        }
     }
 
     public static List<Book> getAllBooks() {
-        SqlSession session = ORMInterface.getSession();
-        BookMapper mapper = session.getMapper(BookMapper.class);
-        List<Book> books = mapper.getAllBooks();
-        session.close();
-        return books;
+        try (SqlSession session = ORMInterface.getSession()) {
+            BookMapper mapper = session.getMapper(BookMapper.class);
+            return mapper.getAllBooks();
+        }
     }
 
 
-    private int id, status, borrower;
+    private int id, status, borrowerId;
     private String title, publisher, borrowedDate, pubDate;
-
+    private Reader borrower;
     public Book() {
     }
 
     ;
 
-    public Book(int id, String title, String publisher, String borrowedDate, int borrower, String pubDate, int status) {
+    public Book(int id, String title, String publisher, String borrowedDate, Reader borrower, String pubDate, int status) {
         this.id = id;
         this.title = title;
         this.publisher = publisher;
@@ -83,10 +81,6 @@ public class Book extends RecursiveTreeObject<Book> {
         this.publisher = publisher;
     }
 
-    public void setBorrower(int borrower) {
-        this.borrower = borrower;
-    }
-
     public String getPublisher() {
         return this.publisher;
     }
@@ -107,8 +101,20 @@ public class Book extends RecursiveTreeObject<Book> {
         return this.pubDate;
     }
 
-    public int getBorrower() {
+    public Reader getBorrower() {
         return this.borrower;
+    }
+
+    public void setBorrower(Reader borrower) {
+        this.borrower = borrower;
+        setBorrowerId(borrower.getId());
+    }
+    public int getBorrowerId() {
+        return borrowerId;
+    }
+
+    public void setBorrowerId(int borrowerId) {
+        this.borrowerId = borrowerId;
     }
 
     public boolean isOverdue() throws ParseException {
@@ -129,21 +135,21 @@ public class Book extends RecursiveTreeObject<Book> {
     }
 
     public void save() {
-        SqlSession session = ORMInterface.getSession();
-        BookMapper mapper = session.getMapper(BookMapper.class);
-        if (this.getId() != 0)
-            mapper.updateBook(this);
-        else
-            mapper.addBook(this);
-        session.commit();
-        session.close();
+        try (SqlSession session = ORMInterface.getSession()) {
+            BookMapper mapper = session.getMapper(BookMapper.class);
+            if (this.getId() != 0)
+                mapper.updateBook(this);
+            else
+                mapper.addBook(this);
+            session.commit();
+        }
     }
 
     public void delete() {
-        SqlSession session = ORMInterface.getSession();
-        BookMapper mapper = session.getMapper(BookMapper.class);
-        mapper.deleteBook(this);
-        session.commit();
-        session.close();
+        try (SqlSession session = ORMInterface.getSession()) {
+            BookMapper mapper = session.getMapper(BookMapper.class);
+            mapper.deleteBook(this);
+            session.commit();
+        }
     }
 }

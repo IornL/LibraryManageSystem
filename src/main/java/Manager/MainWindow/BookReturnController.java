@@ -62,7 +62,7 @@ public class BookReturnController {
             return;
         }
         book.setStatus(Book.STATUS.INSIDE);
-        book.setBorrower(0);
+        book.setBorrower(null);
         book.setBorrowedDate("null");
         book.save();
         bookList.add(book);
