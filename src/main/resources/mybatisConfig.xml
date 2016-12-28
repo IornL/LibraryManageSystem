@@ -4,9 +4,10 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="Admin" type="Manager.Model.Admin"/>
-        <typeAlias alias="Book" type="Manager.Model.Book"/>
+        <typeAlias alias="BookInfo" type="Manager.Model.BookInfo"/>
         <typeAlias alias="Reader" type="Manager.Model.Reader"/>
         <typeAlias type="Manager.Model.BookCategory" alias="Category"/>
+        <typeAlias type="Manager.Model.Book" alias="Book"/>
     </typeAliases>
 
     <environments default="development">
@@ -23,9 +24,9 @@
 
     <mappers>
         <mapper resource="mapper/ReaderMapper.xml"/>
-        <mapper resource="mapper/BookMapper.xml"/>
+        <mapper resource="mapper/BookInfoMapper.xml"/>
         <mapper resource="mapper/AdminMapper.xml"/>
         <mapper resource="mapper/CategoryMapper.xml"/>
-        <mapper resource="mapper/BookLogMapper.xml"/>
+        <mapper resource="mapper/BookMapper.xml"/>
     </mappers>
 </configuration>

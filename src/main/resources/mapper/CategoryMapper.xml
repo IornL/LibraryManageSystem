@@ -6,8 +6,9 @@
     <resultMap id="CategoryMap" type="Category">
         <id column="category_id" property="id"/>
         <result column="category_name" property="name"/>
+        <result column="prefix" property="prefix"/>
     </resultMap>
-    <select id="selectAllCategories" resultMap="categoryMap">
+    <select id="selectAllCategories" resultMap="CategoryMap">
         select * from book_category;
     </select>
 </mapper>

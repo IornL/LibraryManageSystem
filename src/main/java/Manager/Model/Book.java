@@ -1,113 +1,76 @@
 package Manager.Model;
 
-import Manager.ORMInterface;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import org.apache.ibatis.session.SqlSession;
-
-import java.util.List;
 
 /**
- * Created by Iron on 2016/12/27.
+ * Created by Iron on 2016/12/11.
  */
 public class Book extends RecursiveTreeObject<Book> {
-    private int id, amount, categoryId, restAmount;
-    private String title, pubDate, ISBN, publisher;
-    private BookCategory category;
+    public static class STATUS{
+        public static final int INSIDE = 0;
+        public static final int OUTSIDE = 1;
+    }
 
-    public void setId(int id) {
-        this.id = id;
+    private int id, bookInfoId, readerId;
+    private BookInfo bookInfo;
+    private Reader reader;
+    private String borrowedDate;
+    private boolean returned;
+
+
+    public int getReaderId() {
+        return readerId;
+    }
+
+    public void setBookInfoId(int bookInfoId) {
+        this.bookInfoId = bookInfoId;
+    }
+
+    public int getBookInfoId() {
+        return bookInfoId;
+    }
+
+    public void setBorrowedDate(String borrowedDate) {
+        this.borrowedDate = borrowedDate;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getAmount() {
-        return amount;
+    public String getBorrowedDate() {
+        return borrowedDate;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public boolean isReturned() {
+        return returned;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public void setReturned(boolean returned) {
+        this.returned = returned;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
+    public void setReaderId(int readerId) {
+        this.readerId = readerId;
     }
 
-    public String getISBN() {
-        return ISBN;
+    public BookInfo getBookInfo() {
+        return bookInfo;
     }
 
-    public void setPubDate(String pubDate) {
-        this.pubDate = pubDate;
+    public void setBookInfo(BookInfo bookInfo) {
+        this.bookInfo = bookInfo;
     }
 
-    public String getPubDate() {
-        return pubDate;
+    public Reader getReader() {
+        return reader;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getRestAmount() {
-        return restAmount;
-    }
-
-    public void setRestAmount(int restAmount) {
-        this.restAmount = restAmount;
-    }
-
-    public BookCategory getCategory() {
-        return category;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public void setCategory(BookCategory category) {
-        this.category = category;
-    }
-
-    public static List<Book> selectAllBooks() {
-        try(SqlSession session = ORMInterface.getSession()) {
-            BookMapper mapper = session.getMapper(BookMapper.class);
-            return mapper.selectAllBooks();
-        }
-    }
-
-    public void save() {
-        try(SqlSession session = ORMInterface.getSession()) {
-            BookMapper mapper = session.getMapper(BookMapper.class);
-            if(getId() == 0) {
-                mapper.updateBook(this);
-            } else {
-                mapper.updateBook(this);
-            }
-        }
-    }
-
-    public void delete() {
-        try(SqlSession session = ORMInterface.getSession()) {
-            BookMapper mapper = session.getMapper(BookMapper.class);
-            mapper.deleteBook(this);
-        }
+    public void setReader(Reader reader) {
+        this.reader = reader;
     }
 }

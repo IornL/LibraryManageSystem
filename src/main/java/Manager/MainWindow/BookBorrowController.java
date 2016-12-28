@@ -1,15 +1,11 @@
 package Manager.MainWindow;
 
-import Manager.Model.BookLog;
+import Manager.Model.Book;
 import Manager.Model.Reader;
-import Manager.shared.Util;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,8 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Iron on 2016/12/12.
@@ -34,27 +28,27 @@ public class BookBorrowController {
     private JFXTextField readerIdTextField;
 
     @FXML
-    private JFXTreeTableView<BookLog> bookListView;
+    private JFXTreeTableView<Book> bookListView;
 
     public void initialize() {
-//        JFXTreeTableColumn<BookLog, Integer> idColumn = new JFXTreeTableColumn<BookLog, Integer>("图书编号");
+//        JFXTreeTableColumn<Book, Integer> idColumn = new JFXTreeTableColumn<Book, Integer>("图书编号");
 //        idColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getId()));
 //
-//        JFXTreeTableColumn<BookLog, String> titleColumn = new JFXTreeTableColumn<BookLog, String>("书名");
+//        JFXTreeTableColumn<Book, String> titleColumn = new JFXTreeTableColumn<Book, String>("书名");
 //        titleColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getTitle()));
 //
-//        JFXTreeTableColumn<BookLog, String> publisherColumn = new JFXTreeTableColumn<BookLog, String>("出版社");
+//        JFXTreeTableColumn<Book, String> publisherColumn = new JFXTreeTableColumn<Book, String>("出版社");
 //        publisherColumn.setCellValueFactory((param -> new SimpleStringProperty(param.getValue().getValue().getPublisher())));
 //
-//        JFXTreeTableColumn<BookLog, String> returnDateColumn = new JFXTreeTableColumn<>("应还日期");
+//        JFXTreeTableColumn<Book, String> returnDateColumn = new JFXTreeTableColumn<>("应还日期");
 //
 //        bookListView.getColumns().addAll(idColumn, titleColumn, publisherColumn);
 
     }
 
     private void flashTable(Reader reader) {
-        ObservableList<BookLog> bookLogs = FXCollections.observableArrayList(reader.getBorrowedBooks());
-        final TreeItem<BookLog> root = new RecursiveTreeItem<BookLog>(bookLogs, RecursiveTreeObject::getChildren);
+        ObservableList<Book> books = FXCollections.observableArrayList(reader.getBorrowedBooks());
+        final TreeItem<Book> root = new RecursiveTreeItem<Book>(books, RecursiveTreeObject::getChildren);
         bookListView.setRoot(root);
         bookListView.setShowRoot(false);
     }
@@ -67,7 +61,7 @@ public class BookBorrowController {
 //        } catch (NumberFormatException e) {
 //            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "您的输入有误，请重新输入");
 //        }
-//        BookLog bookLog = BookLog.selectBookById(bookId);
+//        Book bookLog = Book.selectBookById(bookId);
 //        Reader reader = Reader.selectReaderById(readerId);
 //        if (bookLog != null && reader != null) {
 //            if (reader.isFrozen()) {
@@ -78,12 +72,12 @@ public class BookBorrowController {
 //                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该账号有超期图书，无法借阅");
 //                return;
 //            }
-//            if (bookLog.getStatus() != BookLog.STATUS.INSIDE) {
+//            if (bookLog.getStatus() != Book.STATUS.INSIDE) {
 //                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该书已被外借");
 //            }
 //            bookLog.setBorrowedDate(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
 //            bookLog.setBorrower(reader);
-//            bookLog.setStatus(BookLog.STATUS.OUTSIDE);
+//            bookLog.setStatus(Book.STATUS.OUTSIDE);
 //            bookLog.save();
 //            flashTable(reader);
 //            Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "借阅成功");

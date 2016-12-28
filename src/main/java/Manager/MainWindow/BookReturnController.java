@@ -1,9 +1,8 @@
 package Manager.MainWindow;
 
-import Manager.Model.BookLog;
+import Manager.Model.Book;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,7 +11,6 @@ import com.jfoenix.controls.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 
-import Manager.shared.Util;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,21 +20,21 @@ import java.util.List;
 public class BookReturnController {
 
     public Label messageLabel;
-    private List<BookLog> bookLogList;
+    private List<Book> bookList;
 
     public JFXTextField bookIdTextField;
     @FXML
-    private JFXTreeTableView<BookLog> bookListView;
+    private JFXTreeTableView<Book> bookListView;
 
     public void initialize() {
-        bookLogList = new ArrayList<>();
-        JFXTreeTableColumn<BookLog, Integer> idColumn = new JFXTreeTableColumn<>("图书编号");
+        bookList = new ArrayList<>();
+        JFXTreeTableColumn<Book, Integer> idColumn = new JFXTreeTableColumn<>("图书编号");
         idColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getId()));
 
-        JFXTreeTableColumn<BookLog, String> titleColumn = new JFXTreeTableColumn<>("书名");
+        JFXTreeTableColumn<Book, String> titleColumn = new JFXTreeTableColumn<>("书名");
 //        titleColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getTitle()));
 
-        JFXTreeTableColumn<BookLog, String> publisherColumn = new JFXTreeTableColumn<>("出版社");
+        JFXTreeTableColumn<Book, String> publisherColumn = new JFXTreeTableColumn<>("出版社");
 //        publisherColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPublisher()));
 
         bookListView.getColumns().addAll(idColumn, titleColumn, publisherColumn);
@@ -44,9 +42,9 @@ public class BookReturnController {
     }
 
     public void handleReturnBook(ActionEvent event) {
-//        BookLog bookLog = null;
+//        Book bookLog = null;
 //        try{
-//            bookLog = BookLog.selectBookById(Integer.parseInt(bookIdTextField.getText()));
+//            bookLog = Book.selectBookById(Integer.parseInt(bookIdTextField.getText()));
 //        }
 //        catch (NumberFormatException e) {
 //            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "您的输入有误，请重新输入");
@@ -56,22 +54,22 @@ public class BookReturnController {
 //            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书不存在");
 //            return;
 //        }
-//        if (bookLog.getStatus() != BookLog.STATUS.OUTSIDE){
+//        if (bookLog.getStatus() != Book.STATUS.OUTSIDE){
 //            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书已在馆，无需归还");
 //            return;
 //        }
-//        bookLog.setStatus(BookLog.STATUS.INSIDE);
+//        bookLog.setStatus(Book.STATUS.INSIDE);
 //        bookLog.setBorrower(null);
 //        bookLog.setBorrowedDate("null");
 //        bookLog.save();
-//        bookLogList.add(bookLog);
+//        bookList.add(bookLog);
 //        flashTable();
 //        Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "图书归还成功");
     }
 
     public void flashTable() {
-        ObservableList<BookLog> bookLogs = FXCollections.observableArrayList(bookLogList);
-        final TreeItem<BookLog> root = new RecursiveTreeItem<BookLog>(bookLogs, RecursiveTreeObject::getChildren);
+        ObservableList<Book> books = FXCollections.observableArrayList(bookList);
+        final TreeItem<Book> root = new RecursiveTreeItem<Book>(books, RecursiveTreeObject::getChildren);
         bookListView.setRoot(root);
         bookListView.setShowRoot(false);
     }

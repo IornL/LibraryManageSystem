@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class BookCategory {
     private int id;
-    private String name;
+    private String name, prefix;
 
     public int getId() {
         return id;
@@ -26,6 +26,14 @@ public class BookCategory {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     public static List<BookCategory> selectCategories() {

@@ -1,7 +1,6 @@
 package Manager.MainWindow;
 
-import Manager.Model.Book;
-import Manager.Model.Reader;
+import Manager.Model.BookInfo;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleObjectProperty;
@@ -21,13 +20,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
+
 import Manager.shared.Util;
 
 /**
@@ -47,7 +43,7 @@ public class BookManageController {
     public Label messageLabel;
 
     @FXML
-    private JFXTreeTableView<Book> bookListView;
+    private JFXTreeTableView<BookInfo> bookListView;
 
     @FXML
     private AnchorPane bookManagePane;
@@ -59,63 +55,63 @@ public class BookManageController {
         popup.setSource(bookListView);
         popup.setContent(popupContentVBox);
 
-        JFXTreeTableColumn<Book, Integer> idColumn = new JFXTreeTableColumn<Book, Integer>("图书编号");
+        JFXTreeTableColumn<BookInfo, Integer> idColumn = new JFXTreeTableColumn<BookInfo, Integer>("图书编号");
         idColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getId()));
 
-        JFXTreeTableColumn<Book, String> titleColumn = new JFXTreeTableColumn<Book, String>("书名");
+        JFXTreeTableColumn<BookInfo, String> titleColumn = new JFXTreeTableColumn<BookInfo, String>("书名");
         titleColumn.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
         titleColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getTitle()));
         titleColumn.setOnEditCommit(event -> {
-            Book Book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
+            BookInfo Book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
             Book.setTitle(event.getNewValue());
             Book.save();
         });
 
-        JFXTreeTableColumn<Book, String> publisherColumn = new JFXTreeTableColumn<Book, String>("出版社");
+        JFXTreeTableColumn<BookInfo, String> publisherColumn = new JFXTreeTableColumn<BookInfo, String>("出版社");
         publisherColumn.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
         publisherColumn.setCellValueFactory((param -> new SimpleStringProperty(param.getValue().getValue().getPublisher())));
         publisherColumn.setOnEditCommit(event -> {
-            Book Book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
+            BookInfo Book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
             Book.setPublisher(event.getNewValue());
             Book.save();
         });
 
-        JFXTreeTableColumn<Book, String> pubDateColumn = new JFXTreeTableColumn<Book, String>("出版日期");
+        JFXTreeTableColumn<BookInfo, String> pubDateColumn = new JFXTreeTableColumn<BookInfo, String>("出版日期");
         //TODO use datePicker as cellFactory
         pubDateColumn.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
         pubDateColumn.setCellValueFactory((param -> new SimpleStringProperty(param.getValue().getValue().getPubDate())));
         pubDateColumn.setOnEditCommit(event -> {
-            Book book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
+            BookInfo book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
             book.setPubDate(event.getNewValue());
             book.save();
         });
 
-        JFXTreeTableColumn<Book, String> isbnColumn = new JFXTreeTableColumn<>("ISBN");
+        JFXTreeTableColumn<BookInfo, String> isbnColumn = new JFXTreeTableColumn<>("ISBN");
         isbnColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getISBN()));
         isbnColumn.setOnEditCommit(event -> {
-            Book book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
+            BookInfo book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
             book.setISBN(event.getNewValue());
             book.save();
         });
 
-        JFXTreeTableColumn<Book, Integer> amountColumn = new JFXTreeTableColumn<>("图书总量");
+        JFXTreeTableColumn<BookInfo, Integer> amountColumn = new JFXTreeTableColumn<>("图书总量");
         amountColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getAmount()));
         amountColumn.setOnEditCommit(event -> {
-            Book book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
+            BookInfo book = bookListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
             book.setAmount(event.getNewValue());
             book.save();
         });
 
-        JFXTreeTableColumn<Book, String> categoryColumn = new JFXTreeTableColumn<>("分类");
+        JFXTreeTableColumn<BookInfo, Integer> restColumn = new JFXTreeTableColumn<>("图书存量");
+        restColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getRest()));
+        JFXTreeTableColumn<BookInfo, String> categoryColumn = new JFXTreeTableColumn<>("分类");
         categoryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getCategory().getName()));
         // TODO: a cell factory for selectBox
 
-        bookListView.getColumns().setAll(idColumn, titleColumn, publisherColumn, pubDateColumn, isbnColumn, amountColumn, categoryColumn);
-        for (TreeTableColumn<Book, ?> column : bookListView.getColumns()
+        bookListView.getColumns().setAll(idColumn, titleColumn, publisherColumn, pubDateColumn, isbnColumn, categoryColumn, amountColumn,  restColumn);
+        for (TreeTableColumn<BookInfo, ?> column : bookListView.getColumns()
                 ) {
-
         }
-        ;
         flashTable();
     }
 
@@ -124,7 +120,7 @@ public class BookManageController {
         String publisher = publisherTextFiled.getText();
         LocalDate pubDate = pubDatePicker.getValue();
         String date = pubDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
-        Book Book = new Book();
+        BookInfo Book = new BookInfo();
         Book.setTitle(title);
         Book.setPublisher(publisher);
         Book.setPubDate(date);
@@ -139,13 +135,13 @@ public class BookManageController {
     }
 
     private void flashTable() {
-        List<Book> BookList = Book.selectAllBooks();
-        ObservableList<Book> Books = FXCollections.observableArrayList();
-        for (Book Book : BookList
+        List<BookInfo> BookList = BookInfo.selectAllBooks();
+        ObservableList<BookInfo> Books = FXCollections.observableArrayList();
+        for (BookInfo Book : BookList
                 ) {
             Books.add(Book);
         }
-        final TreeItem<Book> root = new RecursiveTreeItem<>(Books, RecursiveTreeObject::getChildren);
+        final TreeItem<BookInfo> root = new RecursiveTreeItem<>(Books, RecursiveTreeObject::getChildren);
         bookListView.setRoot(root);
         bookListView.setShowRoot(false);
     }
@@ -157,10 +153,10 @@ public class BookManageController {
     }
 
     public void handleDeleteRow(ActionEvent event) {
-        ObservableList<TreeTablePosition<Book, ?>> selectedBooks = bookListView.getSelectionModel().getSelectedCells();
+        ObservableList<TreeTablePosition<BookInfo, ?>> selectedBooks = bookListView.getSelectionModel().getSelectedCells();
         for (TreeTablePosition position :
                 selectedBooks) {
-            TreeItem<Book> book = bookListView.getTreeItem(position.getRow());
+            TreeItem<BookInfo> book = bookListView.getTreeItem(position.getRow());
             book.getParent().getChildren().remove(book);
             book.getValue().delete();
             popup.close();

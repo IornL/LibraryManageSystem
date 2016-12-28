@@ -19,5 +19,5 @@ public interface ReaderMapper {
 
     public Reader selectReaderById(@Param("id")int id);
 
-    public List<BookLog> getBorrowedBooks(@Param("borrower") int borrower);
+    public List<Book> getBorrowedBooks(@Param("borrower") int borrower);
 }
