@@ -39,7 +39,12 @@ public class BookCategory {
     public static List<BookCategory> selectCategories() {
         try(SqlSession session = ORMInterface.getSession()) {
             BookCategoryMapper mapper = session.getMapper(BookCategoryMapper.class);
-            return mapper.selectAllBookCategory();
+            return mapper.selectAllCategories();
         }
+    }
+
+    @Override
+    public String toString() {
+        return getPrefix() +": " + getName();
     }
 }

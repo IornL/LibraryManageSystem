@@ -11,6 +11,5 @@ public class SharedController {
 
     public static BaseController baseController;
     public static BookManageController bookManageController;
-
 }
 

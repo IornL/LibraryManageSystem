@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Reader extends RecursiveTreeObject<Reader> {
 
-    private int id, borrowCount;
+    private int id, borrowCount,maxBorrowCount;
     private String name, address;
     private boolean frozen;
 
@@ -66,6 +66,14 @@ public class Reader extends RecursiveTreeObject<Reader> {
 
     public void setFrozen(boolean frozen) {
         this.frozen = frozen;
+    }
+
+    public int getMaxBorrowCount() {
+        return maxBorrowCount;
+    }
+
+    public void setMaxBorrowCount(int maxBorrowCount) {
+        this.maxBorrowCount = maxBorrowCount;
     }
 
     public static List<Reader> getAllReaders() {

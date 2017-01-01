@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Iron on 2016/12/27.
  */
 public class BookInfo extends RecursiveTreeObject<BookInfo> {
-    private int id, amount, categoryId, restAmount, rest;
+    private int id, amount, categoryId, rest;
     private String title, pubDate, ISBN, publisher;
     private BookCategory category;
 
@@ -62,14 +62,6 @@ public class BookInfo extends RecursiveTreeObject<BookInfo> {
         return title;
     }
 
-    public int getRestAmount() {
-        return restAmount;
-    }
-
-    public void setRestAmount(int restAmount) {
-        this.restAmount = restAmount;
-    }
-
     public BookCategory getCategory() {
         return category;
     }
@@ -84,6 +76,7 @@ public class BookInfo extends RecursiveTreeObject<BookInfo> {
 
     public void setCategory(BookCategory category) {
         this.category = category;
+        this.categoryId = category.getId();
     }
 
     public int getRest() {
@@ -94,10 +87,10 @@ public class BookInfo extends RecursiveTreeObject<BookInfo> {
         this.rest = rest;
     }
 
-    public static List<BookInfo> selectAllBooks() {
+    public static List<BookInfo> selectAllBookInfos() {
         try(SqlSession session = ORMInterface.getSession()) {
             BookInfoMapper mapper = session.getMapper(BookInfoMapper.class);
-            return mapper.selectAllBooks();
+            return mapper.selectAllBookInfos();
         }
     }
 
@@ -105,17 +98,28 @@ public class BookInfo extends RecursiveTreeObject<BookInfo> {
         try(SqlSession session = ORMInterface.getSession()) {
             BookInfoMapper mapper = session.getMapper(BookInfoMapper.class);
             if(getId() == 0) {
-                mapper.updateBook(this);
+                mapper.insertBookInfo(this);
+                session.commit();
+                setId(mapper.selectLastRowId());
             } else {
-                mapper.updateBook(this);
+                mapper.updateBookInfo(this);
+                session.commit();
             }
+
+        }
+    }
+
+    public static Integer selectSumOfBookByCategory(BookCategory category) {
+        try(SqlSession session = ORMInterface.getSession()){
+            BookInfoMapper mapper = session.getMapper(BookInfoMapper.class);
+            return mapper.selectSumOfBookByCategory(category);
         }
     }
 
     public void delete() {
         try(SqlSession session = ORMInterface.getSession()) {
             BookInfoMapper mapper = session.getMapper(BookInfoMapper.class);
-            mapper.deleteBook(this);
+            mapper.deleteBookInfo(this);
         }
     }
 }

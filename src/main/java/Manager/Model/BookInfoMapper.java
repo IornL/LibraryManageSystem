@@ -8,13 +8,17 @@ import java.util.List;
  * Created by Iron on 2016/12/12.
  */
 public interface BookInfoMapper {
-    public List<BookInfo> selectAllBooks();
+    public List<BookInfo> selectAllBookInfos();
 
-    public void updateBook(BookInfo book);
+    public void updateBookInfo(BookInfo bookInfo);
 
-    public void addBook(BookInfo boo);
+    public void insertBookInfo(BookInfo bookInfo);
 
-    public void deleteBook(BookInfo book);
+    public void deleteBookInfo(BookInfo bookInfo);
 
-    public BookInfo selectBookById(@Param("id") int id);
+    public BookInfo selectBookInfoById(@Param("id") int id);
+
+    public Integer selectLastRowId();
+
+    public Integer selectSumOfBookByCategory(BookCategory category);
 }

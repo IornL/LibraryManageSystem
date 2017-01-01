@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Manager.Model.BookInfoMapper">
+
     <resultMap id="BookInfoMap" type="BookInfo">
         <id column="info_id" property="id" />
         <result column="title" property="title" />
@@ -14,33 +15,44 @@
         <result column="category_id" property="categoryId"/>
         <association property="category" column="category_id" javaType="Category" resultMap="Manager.Model.BookCategoryMapper.CategoryMap"/>
     </resultMap>
-    <select id="selectAllBooks" resultMap="BookInfoMap">
+
+    <select id="selectAllBookInfos" resultMap="BookInfoMap">
         SELECT
           bookInfo.info_id, title, pub_date, ISBN, amount, publisher, book_category.*, bookInfo.amount - COUNT(book.book_info_id) AS rest
         FROM
           bookInfo INNER JOIN
           book_category ON bookInfo.category_id=book_category.category_id
-        LEFT JOIN book ON bookInfo.info_id = book.book_info_id AND book.returned = 0
+        LEFT JOIN book ON bookInfo.info_id = book.book_info_id AND reader_id != 0
     </select>
-    <select id="selectBookById" parameterType="Integer" resultMap="BookInfoMap">
+    <select id="selectBookInfoById" parameterType="Integer" resultMap="BookInfoMap">
     SELECT bookInfo.info_id,title,pub_date,ISBN,amount,publisher ,book_category.*, bookInfo.amount - COUNT(book.book_info_id) AS rest FROM
       bookInfo INNER JOIN book_category ON bookInfo.category_id=book_category.category_id
-      LEFT JOIN book ON bookInfo.info_id = book.book_info_id AND book.returned = 0
+      LEFT JOIN book ON bookInfo.info_id = book.book_info_id AND reader_id != 0
     WHERE log_id = #{id}
     </select>
 
-    <insert id="addBook" parameterType="BookInfo">
+    <select id="selectLastRowId" resultType="Integer">
+        SELECT info_id
+        FROM bookInfo
+      ORDER BY info_id DESC LIMIT 1;
+    </select>
+    <insert id="insertBookInfo" parameterType="BookInfo">
       INSERT INTO
         bookInfo (title, pub_date, ISBN, amount, category_id, publisher)
         VALUES (#{title}, #{pubDate}, #{ISBN}, #{amount}, #{categoryId}, #{publisher});
     </insert>
 
-    <update id="updateBook" parameterType="BookInfo">
+    <update id="updateBookInfo" parameterType="BookInfo">
         UPDATE bookInfo
         SET title = #{title},pub_date = #{pubDate}, ISBN = #{ISBN}, amount=#{amount},category_id=#{categoryId},publisher=#{publisher}
         WHERE info_id=#{id};
     </update>
-    <delete id="deleteBook" parameterType="BookInfo">
+
+    <delete id="deleteBookInfo" parameterType="BookInfo">
         DELETE FROM bookInfo WHERE info_id = #{id}
     </delete>
+
+    <select id="selectSumOfBookByCategory" parameterType="Category" resultType="Integer">
+        SELECT sum(amount) FROM bookInfo WHERE category_id = #{id}
+    </select>
 </mapper>

@@ -2,6 +2,7 @@ package Manager.MainWindow;
 
 import Manager.Model.Book;
 import Manager.Model.Reader;
+import Manager.shared.Util;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -53,7 +54,35 @@ public class BookBorrowController {
         bookListView.setShowRoot(false);
     }
 
-    public void handleBorrow(ActionEvent event) throws ParseException {
+    public void handleBorrow(ActionEvent event) {
+        int readerId = 0;
+        try{
+            readerId = Integer.parseInt(readerIdTextField.getText());
+        }
+        catch (NumberFormatException e){
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "您的输入的卡号有误，请重新输入");
+            return;
+        }
+        Book book = Book.selectBookById(bookIdTextField.getText());
+        Reader reader = Reader.selectReaderById(readerId);
+
+        if(reader == null) {
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该读者不存在");
+            return;
+        }
+
+        if (book == null) {
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书不存在");
+            return;
+        }
+
+        if (reader.isFrozen()) {
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该账号已被续,请联系管理员");
+                return;
+        }
+        Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "借阅成功");
+        book.setReader(reader);
+        book.save();
 //        int bookId = -1, readerId = -1;
 //        try {
 //            bookId = Integer.parseInt(bookIdTextField.getText());

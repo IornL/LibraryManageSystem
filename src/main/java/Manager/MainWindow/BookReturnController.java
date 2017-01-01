@@ -1,8 +1,10 @@
 package Manager.MainWindow;
 
 import Manager.Model.Book;
+import Manager.shared.Util;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,43 +30,35 @@ public class BookReturnController {
 
     public void initialize() {
         bookList = new ArrayList<>();
-        JFXTreeTableColumn<Book, Integer> idColumn = new JFXTreeTableColumn<>("图书编号");
-        idColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getId()));
+        JFXTreeTableColumn<Book, String> idColumn = new JFXTreeTableColumn<>("图书编号");
+        idColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getId()));
 
         JFXTreeTableColumn<Book, String> titleColumn = new JFXTreeTableColumn<>("书名");
-//        titleColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getTitle()));
+        titleColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getBookInfo().getTitle()));
 
         JFXTreeTableColumn<Book, String> publisherColumn = new JFXTreeTableColumn<>("出版社");
-//        publisherColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPublisher()));
+        publisherColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getBookInfo().getPublisher()));
 
         bookListView.getColumns().addAll(idColumn, titleColumn, publisherColumn);
         flashTable();
     }
 
     public void handleReturnBook(ActionEvent event) {
-//        Book bookLog = null;
-//        try{
-//            bookLog = Book.selectBookById(Integer.parseInt(bookIdTextField.getText()));
-//        }
-//        catch (NumberFormatException e) {
-//            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "您的输入有误，请重新输入");
-//            return;
-//        }
-//        if (bookLog == null) {
-//            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书不存在");
-//            return;
-//        }
-//        if (bookLog.getStatus() != Book.STATUS.OUTSIDE){
-//            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书已在馆，无需归还");
-//            return;
-//        }
-//        bookLog.setStatus(Book.STATUS.INSIDE);
-//        bookLog.setBorrower(null);
-//        bookLog.setBorrowedDate("null");
-//        bookLog.save();
-//        bookList.add(bookLog);
-//        flashTable();
-//        Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "图书归还成功");
+        Book book = Book.selectBookById(bookIdTextField.getText());
+
+        if(book == null){
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书不存在");
+            return;
+        }
+
+        if(book.getReaderId() == 0) {
+          Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书已被归还，无需归还");
+          return;
+        }
+        book.setReader(null);
+        Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "图书归还成功");
+        bookList.add(book);
+        flashTable();
     }
 
     public void flashTable() {
