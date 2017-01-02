@@ -1,11 +1,10 @@
 package Manager.MainWindow;
 
+import Manager.Model.Book;
 import Manager.Model.Reader;
 import Manager.shared.SharedController;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
+import Manager.shared.Util;
+import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,14 +14,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTablePosition;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import Manager.shared.Util;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Iron on 2016/12/12.
@@ -33,6 +35,7 @@ public class ReaderManageController {
     public JFXTextField addressTextField;
     public JFXTreeTableView<Reader> userListView;
     public Label messageLabel;
+    public JFXButton submitButton;
     @FXML
     private AnchorPane readerManagePane;
 
@@ -51,29 +54,17 @@ public class ReaderManageController {
 
         JFXTreeTableColumn<Reader, String> nameColumn = new JFXTreeTableColumn<>("姓名");
         nameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getName()));
-        nameColumn.setOnEditCommit(event -> {
-            Reader reader = userListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
-            reader.setName(event.getNewValue());
-            reader.save();
-        });
 
         JFXTreeTableColumn<Reader, String> addressColumn = new JFXTreeTableColumn<>("家庭住址");
         addressColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getAddress()));
-        addressColumn.setOnEditCommit(event -> {
-            Reader reader = userListView.getTreeItem(event.getTreeTablePosition().getRow()).getValue();
-            reader.setAddress(event.getNewValue());
-            reader.save();
-        });
-
-        JFXTreeTableColumn<Reader, Integer> borrowCountColumn = new JFXTreeTableColumn<>("已借本数");
-        borrowCountColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getBorrowCount()));
-
-        userListView.getColumns().addAll(idColumn, nameColumn, addressColumn,borrowCountColumn);
+        JFXTreeTableColumn<Reader, Integer> maxBorrowCountColumn = new JFXTreeTableColumn<>("最大借阅数");
+        maxBorrowCountColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getMaxBorrowCount()));
+        userListView.getColumns().addAll(idColumn, nameColumn, addressColumn, maxBorrowCountColumn);
         flashTable();
     }
 
 
-    private void flashTable() {
+    public void flashTable() {
         ObservableList readers = FXCollections.observableList(Reader.getAllReaders());
         final TreeItem<Reader> root = new RecursiveTreeItem<Reader>(readers, RecursiveTreeObject::getChildren);
         userListView.setRoot(root);
@@ -81,19 +72,32 @@ public class ReaderManageController {
     }
 
     @FXML
-    void handleOpenDialog(ActionEvent event) {
+    void handleOpenInsertDialog(ActionEvent event) {
+        submitButton.setText("添加");
         readerManagePane.setVisible(false);
         addReaderDialog.setVisible(true);
         addReaderDialog.toFront();
     }
 
     @FXML
-    void handleAddReader(ActionEvent event) {
-        Reader reader = new Reader(nameTextField.getText(), addressTextField.getText());
-        reader.save();
-        nameTextField.clear();
-        addressTextField.clear();
-        Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "读者添加成功");
+    void handleInsertOrModifyReader(ActionEvent event) {
+        if (Objects.equals(submitButton.getText(), "添加")) {
+            Reader reader = new Reader(nameTextField.getText(), addressTextField.getText());
+            reader.save();
+            nameTextField.clear();
+            addressTextField.clear();
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "读者添加成功");
+        } else {
+            ObservableList<TreeTablePosition<Reader, ?>> selectedBooks = userListView.getSelectionModel().getSelectedCells();
+            if (selectedBooks.size() == 0) {
+                return;
+            }
+            Reader reader = selectedBooks.get(0).getTreeItem().getValue();
+            reader.setName(nameTextField.getText());
+            reader.setAddress(addressTextField.getText());
+            reader.save();
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "读者信息修改成功");
+        }
     }
 
     @FXML
@@ -110,6 +114,39 @@ public class ReaderManageController {
             stage.setTitle("+1s");
             stage.setScene(new Scene(detailPane));
             stage.show();
+        }
+    }
+
+    public void handleOpenModifyDialog(ActionEvent event) {
+        ObservableList<TreeTablePosition<Reader, ?>> selectedReaders = userListView.getSelectionModel().getSelectedCells();
+        if (selectedReaders.size() == 0) {
+            return;
+        }
+        Reader reader = selectedReaders.get(0).getTreeItem().getValue();
+        nameTextField.setText(reader.getName());
+        addressTextField.setText(reader.getAddress());
+        submitButton.setText("修改");
+        readerManagePane.setVisible(false);
+        addReaderDialog.setVisible(true);
+        addReaderDialog.toFront();
+    }
+
+    public void handleDelete(ActionEvent event) {
+        ObservableList<TreeTablePosition<Reader, ?>> selectedReaders = userListView.getSelectionModel().getSelectedCells();
+        for (TreeTablePosition position : selectedReaders
+                ) {
+            Reader reader = userListView.getTreeItem(position.getRow()).getValue();
+            List<Book> readerList = Book.selectBookByReader(reader);
+            if (Book.selectBookByReader(reader).size() != 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("该读者还有书籍外借，无法删除");
+                alert.show();
+                return;
+            }
+            reader.delete();
+            TreeItem<Reader> readerTreeItem = userListView.getTreeItem(position.getRow());
+            readerTreeItem.getParent().getChildren().remove(readerTreeItem);
+            flashTable();
         }
     }
 }

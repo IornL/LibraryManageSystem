@@ -2,14 +2,16 @@ package Manager.MainWindow;
 
 import Manager.Model.Book;
 import Manager.shared.Util;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTreeTableColumn;
+import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import com.jfoenix.controls.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 
@@ -46,17 +48,18 @@ public class BookReturnController {
     public void handleReturnBook(ActionEvent event) {
         Book book = Book.selectBookById(bookIdTextField.getText());
 
-        if(book == null){
+        if (book == null) {
             Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书不存在");
             return;
         }
 
-        if(book.getReaderId() == 0) {
-          Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书已被归还，无需归还");
-          return;
+        if (book.getReaderId() == 0) {
+            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书已被归还，无需归还");
+            return;
         }
         book.setReader(null);
         Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "图书归还成功");
+        book.save();
         bookList.add(book);
         flashTable();
     }

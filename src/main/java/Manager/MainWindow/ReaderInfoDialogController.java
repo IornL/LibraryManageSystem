@@ -1,7 +1,6 @@
 package Manager.MainWindow;
 
 import Manager.Model.Book;
-import Manager.Model.BookInfo;
 import Manager.Model.Reader;
 import Manager.shared.SharedController;
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -11,15 +10,9 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTablePosition;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,7 +60,7 @@ public class ReaderInfoDialogController {
         JFXTreeTableColumn<Book, String> returnDateColumn = new JFXTreeTableColumn<>("应还日期");
         returnDateColumn.setCellValueFactory(param -> {
             try {
-                if(param.getValue().getValue().isInLibrary())
+                if (param.getValue().getValue().isInLibrary())
                     return new SimpleStringProperty("N/A");
                 Calendar returnCalendar = param.getValue().getValue().getReturnCalendar();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

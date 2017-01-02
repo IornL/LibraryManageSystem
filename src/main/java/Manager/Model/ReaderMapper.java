@@ -17,7 +17,7 @@ public interface ReaderMapper {
 
     public void deleteReader(Reader reader);
 
-    public Reader selectReaderById(@Param("id")int id);
+    public Reader selectReaderById(@Param("id") int id);
 
     public List<Book> getBorrowedBooks(@Param("borrower") int borrower);
 }

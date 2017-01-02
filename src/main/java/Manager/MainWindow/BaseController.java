@@ -79,6 +79,7 @@ public class BaseController {
         }
         bookManagePane.setVisible(true);
         bookManagePane.toFront();
+        SharedController.bookManageController.flashTable();
     }
 
     public void handleReaderManagePane(javafx.event.ActionEvent event) {
@@ -88,6 +89,7 @@ public class BaseController {
         }
         readerManagePane.setVisible(true);
         readerManagePane.toFront();
+        SharedController.readerManageController.flashTable();
     }
 
     public void handleBorrowPane(javafx.event.ActionEvent event) {

@@ -4,6 +4,7 @@ import Manager.Model.Book;
 import Manager.Model.BookCategory;
 import Manager.Model.BookInfo;
 import Manager.shared.SharedController;
+import Manager.shared.Util;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,12 +15,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTablePosition;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -31,9 +33,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import Manager.shared.Util;
-import javafx.stage.Stage;
 
 /**
  * Created by Iron on 2016/12/9.
@@ -94,32 +93,35 @@ public class BookManageController {
         JFXTreeTableColumn<BookInfo, String> categoryColumn = new JFXTreeTableColumn<>("分类");
         categoryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getCategory().getName()));
 
-        bookListView.getColumns().setAll(idColumn, titleColumn, publisherColumn, pubDateColumn, isbnColumn, categoryColumn, amountColumn,  restColumn);
+        bookListView.getColumns().setAll(idColumn, titleColumn, publisherColumn, pubDateColumn, isbnColumn, categoryColumn, amountColumn, restColumn);
 
         flashTable();
     }
+
     public void handleInsertOrModifyBook(ActionEvent event) throws IOException {
-        if (Objects.equals(commitButton.getText(), "添加")){
+        if (Objects.equals(commitButton.getText(), "添加")) {
             BookInfo bookInfo = new BookInfo();
             String title = titleTextField.getText();
             String publisher = publisherTextFiled.getText();
             LocalDate pubDate = pubDatePicker.getValue();
             BookCategory category = categoryComboBox.getValue();
             int amount = Integer.parseInt(amountTextFiled.getText());
+            String isbn = ISBNTextFiled.getText();
             String date = pubDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
             int index;
             try {
                 index = BookInfo.selectSumOfBookByCategory(category);
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 index = 0;
             }
             bookInfo.setTitle(title);
             bookInfo.setPublisher(publisher);
             bookInfo.setPubDate(date);
             bookInfo.setAmount(amount);
+            bookInfo.setISBN(isbn);
             bookInfo.setCategory(category);
             bookInfo.save();
-            for(int i = 0; i < amount; ++i) {
+            for (int i = 0; i < amount; ++i) {
                 Book book = new Book();
                 book.setId(bookInfo.getCategory().getPrefix() + (++index));
                 book.setBookInfo(bookInfo);
@@ -136,14 +138,16 @@ public class BookManageController {
             BookCategory category = categoryComboBox.getValue();
             int newAmount = Integer.parseInt(amountTextFiled.getText());
             String date = pubDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+            String isbn = ISBNTextFiled.getText();
             bookInfo.setTitle(title);
             bookInfo.setPublisher(publisher);
             bookInfo.setPubDate(date);
             bookInfo.setCategory(category);
             bookInfo.setAmount(newAmount);
+            bookInfo.setISBN(isbn);
             int index = BookInfo.selectSumOfBookByCategory(category);
             if (newAmount >= oldAmount) {
-                for(int z = 0 ; z < newAmount - oldAmount ; ++z) {
+                for (int z = 0; z < newAmount - oldAmount; ++z) {
                     Book book = new Book();
                     book.setId(bookInfo.getCategory().getPrefix() + (++index));
                     book.setBookInfo(bookInfo);
@@ -160,9 +164,9 @@ public class BookManageController {
                     amountTextFiled.setText(String.valueOf(oldAmount));
                     return;
                 }
-                for(int z = 0 ; z < oldAmount - newAmount ; ++z) {
-                   Book book = insideBooks.get(z);
-                   book.delete();
+                for (int z = 0; z < oldAmount - newAmount; ++z) {
+                    Book book = insideBooks.get(z);
+                    book.delete();
                 }
 
             }
@@ -172,7 +176,7 @@ public class BookManageController {
         flashTable();
     }
 
-    private void flashTable() {
+    public void flashTable() {
         List<BookInfo> bookInfoList = BookInfo.selectAllBookInfos();
         ObservableList<BookInfo> Books = FXCollections.observableArrayList();
         for (BookInfo bookInfo : bookInfoList
@@ -197,7 +201,9 @@ public class BookManageController {
                 selectedBooks) {
             TreeItem<BookInfo> bookInfoItem = bookListView.getTreeItem(position.getRow());
             if (bookInfoItem.getValue().getAmount() != bookInfoItem.getValue().getRest()) {
-                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该类书籍并未全部在馆，无法删除");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("该图书并未全部在馆，无法删除");
+                alert.show();
                 return;
             }
             Book.deleteBookByBookInfo(bookInfoItem.getValue());
@@ -208,13 +214,13 @@ public class BookManageController {
 
     public void handleOpenBookModifyDialog(ActionEvent event) throws ParseException {
         ObservableList<TreeTablePosition<BookInfo, ?>> selectedBooks = bookListView.getSelectionModel().getSelectedCells();
-        if(selectedBooks.size() == 0) {
+        if (selectedBooks.size() == 0) {
             return;
         }
         BookInfo bookInfo = selectedBooks.get(0).getTreeItem().getValue();
         titleTextField.setText(bookInfo.getTitle());
         publisherTextFiled.setText(bookInfo.getPublisher());
-        ISBNTextFiled.setText(bookInfo.getPublisher());
+        ISBNTextFiled.setText(bookInfo.getISBN());
         amountTextFiled.setText(String.valueOf(bookInfo.getAmount()));
         categoryComboBox.setValue(bookInfo.getCategory());
         categoryComboBox.setDisable(true);
@@ -227,7 +233,7 @@ public class BookManageController {
     }
 
     public void handleOpenBookInfoDetail(MouseEvent mouseEvent) throws IOException {
-        if(mouseEvent.getClickCount() > 1) {
+        if (mouseEvent.getClickCount() > 1) {
             AnchorPane detailPane = FXMLLoader.load(getClass().getResource("/FXML/BookInfoDialog.fxml"));
             Stage stage = new Stage();
             stage.setTitle("+1s");

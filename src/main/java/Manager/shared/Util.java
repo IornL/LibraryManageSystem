@@ -8,11 +8,11 @@ import javafx.scene.control.Label;
 public class Util {
     public static final int MESSAGE_ERROR = 0;
     public static final int MESSAGE_SUCCESS = 1;
-    public static void setMessageLabel(Label label, int type, String content){
-        if (type== MESSAGE_ERROR) {
+
+    public static void setMessageLabel(Label label, int type, String content) {
+        if (type == MESSAGE_ERROR) {
             label.setStyle("-fx-text-fill: red");
-        }
-        else {
+        } else {
             label.setStyle("-fx-text-fill: lawngreen");
         }
         label.setText(content);

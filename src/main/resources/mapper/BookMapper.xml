@@ -51,7 +51,7 @@
         DELETE FROM book WHERE book_id = #{id}
     </delete>
     <delete id="deleteBookByBookInfo" parameterType="BookInfo">
-        DELETE FROM book WHERE book_info_id = #{bookInfoId}
+        DELETE FROM book WHERE book_info_id = #{id}
     </delete>
 
 </mapper>

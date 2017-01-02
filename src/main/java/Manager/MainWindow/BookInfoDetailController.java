@@ -10,10 +10,8 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.css.SimpleStyleableStringProperty;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTablePosition;
-import javafx.scene.layout.AnchorPane;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,37 +31,37 @@ public class BookInfoDetailController {
 
         JFXTreeTableColumn<Book, String> bookStatusColumn = new JFXTreeTableColumn<>("图书状态");
         bookStatusColumn.setCellValueFactory(param -> {
-            String s = null;
-            if (param.getValue().getValue().isInLibrary()) {
-                s = "在馆";
-            } else {
-                try {
-                    s = param.getValue().getValue().isOverdue() ? "超期" : "外借";
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    String s = null;
+                    if (param.getValue().getValue().isInLibrary()) {
+                        s = "在馆";
+                    } else {
+                        try {
+                            s = param.getValue().getValue().isOverdue() ? "超期" : "外借";
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return new SimpleStringProperty(s);
                 }
-            }
-            return new SimpleStringProperty(s);
-        }
         );
 
         JFXTreeTableColumn<Book, String> bookReaderColumn = new JFXTreeTableColumn<>("借阅者");
         bookReaderColumn.setCellValueFactory(param ->
-            new SimpleStringProperty(
-                    param.getValue().getValue().isInLibrary() ? "N/A" : param.getValue().getValue().getReader().getName()
-            )
+                new SimpleStringProperty(
+                        param.getValue().getValue().isInLibrary() ? "N/A" : param.getValue().getValue().getReader().getName()
+                )
         );
 
         JFXTreeTableColumn<Book, String> borrowedDateColumn = new JFXTreeTableColumn<>("借阅日期");
         borrowedDateColumn.setCellValueFactory(param ->
                 new SimpleStringProperty(
                         param.getValue().getValue().isInLibrary() ? "N/A" : param.getValue().getValue().getBorrowedDate()
-        ));
+                ));
 
         JFXTreeTableColumn<Book, String> returnDateColumn = new JFXTreeTableColumn<>("应还日期");
         returnDateColumn.setCellValueFactory(param -> {
             try {
-                if(param.getValue().getValue().isInLibrary())
+                if (param.getValue().getValue().isInLibrary())
                     return new SimpleStringProperty("N/A");
                 Calendar returnCalendar = param.getValue().getValue().getReturnCalendar();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

@@ -14,14 +14,24 @@
             <AnchorPane fx:id="readerManagePane" prefHeight="600.0" prefWidth="680.0">
                <children>
                     <JFXTreeTableView fx:id="userListView" layoutY="62.0" onMouseClicked="#handleOpenContentDialog" prefHeight="513.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="87.0" />
-                    <JFXButton layoutX="106.0" layoutY="22.0" onAction="#handleOpenDialog" prefHeight="48.0" prefWidth="445.0" text="添加">
+                    <JFXButton layoutX="340.0" layoutY="28.0" onAction="#handleOpenInsertDialog" prefHeight="48.0" prefWidth="106.0" text="添加">
                         <graphic>
                             <FontAwesomeIcon iconName="PLUS" />
                         </graphic>
                     </JFXButton>
+                  <JFXButton layoutX="446.0" layoutY="28.0" onAction="#handleOpenModifyDialog" prefHeight="48.0" prefWidth="114.0" text="修改">
+                     <graphic>
+                        <FontAwesomeIcon iconName="WRENCH" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton layoutX="560.0" layoutY="28.0" onAction="#handleDelete" prefHeight="48.0" prefWidth="114.0" text="删除">
+                     <graphic>
+                        <FontAwesomeIcon iconName="ERASER" />
+                     </graphic>
+                  </JFXButton>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="addReaderDialog" prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="addReaderDialog" prefHeight="600.0" prefWidth="680.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <JFXTextField fx:id="nameTextField" layoutX="118.0" layoutY="99.0" maxWidth="445.0" minWidth="322.0" prefHeight="116.0" prefWidth="445.0" promptText="姓名">
                      <font>
@@ -33,7 +43,7 @@
                         <Font size="48.0" />
                      </font>
                   </JFXTextField>
-                  <JFXButton layoutX="130.0" layoutY="446.0" onAction="#handleAddReader" prefHeight="80.0" prefWidth="182.0" text="添加" />
+                  <JFXButton fx:id="submitButton" layoutX="124.0" layoutY="446.0" onAction="#handleInsertOrModifyReader" prefHeight="80.0" prefWidth="182.0" text="添加" />
                   <JFXButton layoutX="374.0" layoutY="446.0" onAction="#handleReturn" prefHeight="80.0" prefWidth="160.0" text="返回" />
                   <Label fx:id="messageLabel" layoutX="145.0" layoutY="374.0" prefHeight="80.0" prefWidth="396.0">
                      <font>

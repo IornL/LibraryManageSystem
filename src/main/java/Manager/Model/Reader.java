@@ -12,16 +12,21 @@ import java.util.List;
  */
 public class Reader extends RecursiveTreeObject<Reader> {
 
-    private int id, borrowCount,maxBorrowCount;
+    private int id, borrowCount, maxBorrowCount;
     private String name, address;
     private boolean frozen;
 
-    public Reader() {};
-    public  Reader(String name, String address) {
+    public Reader() {
+    }
+
+    ;
+
+    public Reader(String name, String address) {
         this.name = name;
         this.address = address;
     }
-    public  Reader(int id, String name, String address, int borrowCount, boolean frozen) {
+
+    public Reader(int id, String name, String address, int borrowCount, boolean frozen) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -46,7 +51,9 @@ public class Reader extends RecursiveTreeObject<Reader> {
         return borrowCount;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -96,6 +103,7 @@ public class Reader extends RecursiveTreeObject<Reader> {
             return mapper.getBorrowedBooks(getId());
         }
     }
+
     public void save() {
         try (SqlSession session = ORMInterface.getSession()) {
             ReaderMapper mapper = session.getMapper(ReaderMapper.class);
@@ -106,6 +114,7 @@ public class Reader extends RecursiveTreeObject<Reader> {
             session.commit();
         }
     }
+
     public void delete() {
         try (SqlSession session = ORMInterface.getSession()) {
             ReaderMapper mapper = session.getMapper(ReaderMapper.class);
@@ -114,15 +123,18 @@ public class Reader extends RecursiveTreeObject<Reader> {
         }
     }
 
-    public boolean checkOverDue() throws ParseException {
-//        try (SqlSession session = ORMInterface.getSession()) {
-//            ReaderMapper mapper = session.getMapper(ReaderMapper.class);
-//            List<Book> bookLogs = mapper.getBorrowedBooks(getId());
-//            for(Book bookLog : bookLogs) {
-//            if (bookLog.isOverdue())
-//                return true;
-//            }
+    public boolean hasOverdueBook() throws ParseException {
+        try (SqlSession session = ORMInterface.getSession()) {
+            BookMapper mapper = session.getMapper(BookMapper.class);
+            List<Book> books = mapper.selectBookByReader(this);
+            for (Book b :
+                    books) {
+                if (b.isOverdue()) {
+                    return true;
+                }
+            }
             return false;
-    }
+        }
 
+    }
 }

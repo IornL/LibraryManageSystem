@@ -88,16 +88,16 @@ public class BookInfo extends RecursiveTreeObject<BookInfo> {
     }
 
     public static List<BookInfo> selectAllBookInfos() {
-        try(SqlSession session = ORMInterface.getSession()) {
+        try (SqlSession session = ORMInterface.getSession()) {
             BookInfoMapper mapper = session.getMapper(BookInfoMapper.class);
             return mapper.selectAllBookInfos();
         }
     }
 
     public void save() {
-        try(SqlSession session = ORMInterface.getSession()) {
+        try (SqlSession session = ORMInterface.getSession()) {
             BookInfoMapper mapper = session.getMapper(BookInfoMapper.class);
-            if(getId() == 0) {
+            if (getId() == 0) {
                 mapper.insertBookInfo(this);
                 session.commit();
                 setId(mapper.selectLastRowId());
@@ -110,14 +110,14 @@ public class BookInfo extends RecursiveTreeObject<BookInfo> {
     }
 
     public static Integer selectSumOfBookByCategory(BookCategory category) {
-        try(SqlSession session = ORMInterface.getSession()){
+        try (SqlSession session = ORMInterface.getSession()) {
             BookInfoMapper mapper = session.getMapper(BookInfoMapper.class);
             return mapper.selectSumOfBookByCategory(category);
         }
     }
 
     public void delete() {
-        try(SqlSession session = ORMInterface.getSession()) {
+        try (SqlSession session = ORMInterface.getSession()) {
             BookInfoMapper mapper = session.getMapper(BookInfoMapper.class);
             mapper.deleteBookInfo(this);
             session.commit();
