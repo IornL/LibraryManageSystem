@@ -120,6 +120,7 @@ public class BookInfo extends RecursiveTreeObject<BookInfo> {
         try(SqlSession session = ORMInterface.getSession()) {
             BookInfoMapper mapper = session.getMapper(BookInfoMapper.class);
             mapper.deleteBookInfo(this);
+            session.commit();
         }
     }
 }

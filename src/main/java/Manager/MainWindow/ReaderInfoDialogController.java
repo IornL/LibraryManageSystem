@@ -2,6 +2,7 @@ package Manager.MainWindow;
 
 import Manager.Model.Book;
 import Manager.Model.BookInfo;
+import Manager.Model.Reader;
 import Manager.shared.SharedController;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -10,22 +11,25 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.css.SimpleStyleableStringProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTablePosition;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by Iron on 2016/12/31.
+ * Created by Iron on 2017/1/2.
  */
-public class BookInfoDetailController {
-
-    public JFXTreeTableView<Book> bookContentView;
+public class ReaderInfoDialogController {
+    public JFXTreeTableView<Book> readersBookView;
 
     public void initialize() {
         JFXTreeTableColumn<Book, String> bookIdColumn = new JFXTreeTableColumn<>("图书编号");
@@ -33,32 +37,32 @@ public class BookInfoDetailController {
 
         JFXTreeTableColumn<Book, String> bookStatusColumn = new JFXTreeTableColumn<>("图书状态");
         bookStatusColumn.setCellValueFactory(param -> {
-            String s = null;
-            if (param.getValue().getValue().isInLibrary()) {
-                s = "在馆";
-            } else {
-                try {
-                    s = param.getValue().getValue().isOverdue() ? "超期" : "外借";
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    String s = null;
+                    if (param.getValue().getValue().isInLibrary()) {
+                        s = "在馆";
+                    } else {
+                        try {
+                            s = param.getValue().getValue().isOverdue() ? "超期" : "外借";
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return new SimpleStringProperty(s);
                 }
-            }
-            return new SimpleStringProperty(s);
-        }
         );
 
         JFXTreeTableColumn<Book, String> bookReaderColumn = new JFXTreeTableColumn<>("借阅者");
         bookReaderColumn.setCellValueFactory(param ->
-            new SimpleStringProperty(
-                    param.getValue().getValue().isInLibrary() ? "N/A" : param.getValue().getValue().getReader().getName()
-            )
+                new SimpleStringProperty(
+                        param.getValue().getValue().isInLibrary() ? "N/A" : param.getValue().getValue().getReader().getName()
+                )
         );
 
         JFXTreeTableColumn<Book, String> borrowedDateColumn = new JFXTreeTableColumn<>("借阅日期");
         borrowedDateColumn.setCellValueFactory(param ->
                 new SimpleStringProperty(
                         param.getValue().getValue().isInLibrary() ? "N/A" : param.getValue().getValue().getBorrowedDate()
-        ));
+                ));
 
         JFXTreeTableColumn<Book, String> returnDateColumn = new JFXTreeTableColumn<>("应还日期");
         returnDateColumn.setCellValueFactory(param -> {
@@ -73,15 +77,14 @@ public class BookInfoDetailController {
             }
             return null;
         });
-        bookContentView.getColumns().addAll(bookIdColumn, bookStatusColumn, bookReaderColumn, borrowedDateColumn, returnDateColumn);
-        JFXTreeTableView bookListView = SharedController.bookManageController.bookListView;
-        ObservableList<TreeTablePosition<BookInfo, ?>> selectedBookInfos = bookListView.getSelectionModel().getSelectedCells();
-        BookInfo bookInfo = selectedBookInfos.get(0).getTreeItem().getValue();
-        List<Book> bookList = Book.selectBookByBookInfo(bookInfo);
+        readersBookView.getColumns().addAll(bookIdColumn, bookStatusColumn, bookReaderColumn, borrowedDateColumn, returnDateColumn);
+        JFXTreeTableView readerListView = SharedController.readerManageController.userListView;
+        ObservableList<TreeTablePosition<Reader, ?>> selectedBookInfos = readerListView.getSelectionModel().getSelectedCells();
+        Reader reader = selectedBookInfos.get(0).getTreeItem().getValue();
+        List<Book> bookList = Book.selectBookByReader(reader);
         ObservableList<Book> bookObservableList = FXCollections.observableList(bookList);
-
-        final TreeItem<Book> bookTreeItem = new RecursiveTreeItem<Book>(bookObservableList, RecursiveTreeObject::getChildren);
-        bookContentView.setShowRoot(false);
-        bookContentView.setRoot(bookTreeItem);
+        final TreeItem<Book> treeItem = new RecursiveTreeItem<Book>(bookObservableList, RecursiveTreeObject::getChildren);
+        readersBookView.setRoot(treeItem);
     }
+
 }

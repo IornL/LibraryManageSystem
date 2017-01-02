@@ -2,7 +2,10 @@ package Manager.Model;
 
 import Manager.ORMInterface;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionException;
+import org.sqlite.SQLiteException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,12 +20,28 @@ public class Book extends RecursiveTreeObject<Book> {
     public void save() {
         try (SqlSession session = ORMInterface.getSession()){
             BookMapper mapper = session.getMapper(BookMapper.class);
-            mapper.insertBook(this);
+            try{
+
+                mapper.insertBook(this);
+            } catch (PersistenceException e) {
+                mapper.updateBookById(this);
+            }
             session.commit();
         };
-
     }
-
+    public static List<Book> selectBookByReader(Reader reader) {
+        try(SqlSession session = ORMInterface.getSession()) {
+            BookMapper mapper = session.getMapper(BookMapper.class);
+            return mapper.selectBookByReader(reader);
+        }
+    }
+    public static void deleteBookByBookInfo(BookInfo bookInfo) {
+        try(SqlSession session = ORMInterface.getSession()) {
+            BookMapper mapper = session.getMapper(BookMapper.class);
+            mapper.deleteBookByBookInfo(bookInfo);
+            session.commit();
+        }
+    }
     public static Book selectBookById(String id) {
         try(SqlSession session = ORMInterface.getSession()){
             BookMapper mapper = session.getMapper(BookMapper.class);
@@ -31,20 +50,16 @@ public class Book extends RecursiveTreeObject<Book> {
     }
     public Calendar getReturnCalendar() throws ParseException {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new SimpleDateFormat("YYYY-MM-DD").parse(this.borrowedDate));
-        calendar.add(Calendar.MONTH, 1);
+        calendar.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(this.borrowedDate));
+        if(calendar.get(Calendar.MONTH) == 11){
+            calendar.add(Calendar.YEAR ,1);
+            calendar.set(Calendar.MONTH, 0);
+        }
+        else {
+            calendar.add(Calendar.MONTH, 1);
+        }
         return calendar;
     }
-    public boolean isOverdue() throws ParseException {
-        if (this.getBorrowedDate().equals("null"))
-            return false;
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
-
-        Calendar returnCalender = getReturnCalendar();
-        return now.before(returnCalender);
-    }
-
 
     public static List<Book> selectBookByBookInfo(BookInfo info) {
         try(SqlSession session = ORMInterface.getSession()) {
@@ -63,6 +78,12 @@ public class Book extends RecursiveTreeObject<Book> {
 
     public boolean isInLibrary() {
         return reader == null;
+    }
+
+    public boolean isOverdue() throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        return calendar.after(getReturnCalendar());
     }
 
     private int bookInfoId, readerId;

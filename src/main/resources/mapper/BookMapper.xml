@@ -31,10 +31,27 @@
         LEFT JOIN reader ON book.reader_id = reader.reader_id
         WHERE info_id = #{id}
         ORDER BY book_id DESC
-
     </select>
+
+    <select id="selectBookByReader" parameterType="Reader" resultMap="BookMap">
+        SELECT
+        book_id, borrowed_date, bookInfo.info_id,bookinfo.title,pub_date,publisher,ISBN,amount,book_category.*,reader.*
+        FROM
+        book INNER JOIN bookInfo ON book.book_info_id = bookinfo.info_id
+        INNER JOIN book_category ON bookinfo.category_id = book_category.category_id
+        LEFT JOIN reader ON book.reader_id = reader.reader_id
+        WHERE book.reader_id = #{id}
+        ORDER BY book_id DESC
+    </select>
+    <update id="updateBookById" parameterType="Book">
+        UPDATE book SET borrowed_date = #{borrowedDate}, reader_id = #{readerId}
+        WHERE book_id = #{id}
+    </update>
     <delete id="deleteBookById">
         DELETE FROM book WHERE book_id = #{id}
+    </delete>
+    <delete id="deleteBookByBookInfo" parameterType="BookInfo">
+        DELETE FROM book WHERE book_info_id = #{bookInfoId}
     </delete>
 
 </mapper>

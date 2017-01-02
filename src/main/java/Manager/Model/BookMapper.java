@@ -12,4 +12,7 @@ public interface BookMapper {
     public Book selectBookById(@Param("id") String id);
     public List<Book> selectBookByBookInfo(BookInfo bookInfo);
     public void deleteBookById(Book book);
+    public void updateBookById(Book book);
+    public void deleteBookByBookInfo(BookInfo info);
+    public List<Book> selectBookByReader(Reader reader);
 }

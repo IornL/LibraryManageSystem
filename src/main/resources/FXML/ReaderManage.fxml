@@ -13,7 +13,7 @@
          <children>
             <AnchorPane fx:id="readerManagePane" prefHeight="600.0" prefWidth="680.0">
                <children>
-                    <JFXTreeTableView fx:id="userListView" layoutY="62.0" prefHeight="513.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="87.0" />
+                    <JFXTreeTableView fx:id="userListView" layoutY="62.0" onMouseClicked="#handleOpenContentDialog" prefHeight="513.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="87.0" />
                     <JFXButton layoutX="106.0" layoutY="22.0" onAction="#handleOpenDialog" prefHeight="48.0" prefWidth="445.0" text="添加">
                         <graphic>
                             <FontAwesomeIcon iconName="PLUS" />

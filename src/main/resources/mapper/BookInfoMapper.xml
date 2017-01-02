@@ -18,17 +18,17 @@
 
     <select id="selectAllBookInfos" resultMap="BookInfoMap">
         SELECT
-          bookInfo.info_id, title, pub_date, ISBN, amount, publisher, book_category.*, bookInfo.amount - COUNT(book.book_info_id) AS rest
-        FROM
-          bookInfo INNER JOIN
-          book_category ON bookInfo.category_id=book_category.category_id
-        LEFT JOIN book ON bookInfo.info_id = book.book_info_id AND reader_id != 0
-    </select>
-    <select id="selectBookInfoById" parameterType="Integer" resultMap="BookInfoMap">
-    SELECT bookInfo.info_id,title,pub_date,ISBN,amount,publisher ,book_category.*, bookInfo.amount - COUNT(book.book_info_id) AS rest FROM
-      bookInfo INNER JOIN book_category ON bookInfo.category_id=book_category.category_id
-      LEFT JOIN book ON bookInfo.info_id = book.book_info_id AND reader_id != 0
-    WHERE log_id = #{id}
+          bookInfo.info_id, title, pub_date, ISBN, amount, publisher, book_category.*,amount - count(*) AS rest
+        FROM bookInfo INNER JOIN  book ON bookInfo.info_id = book.book_info_id AND book.reader_id != 0
+          INNER JOIN book_category ON bookinfo.category_id = book_category.category_id
+        GROUP BY info_id
+        UNION
+        SELECT
+          bookInfo.info_id, title, pub_date, ISBN, amount, publisher, book_category.* ,amount AS rest
+        FROM bookInfo INNER JOIN  book ON bookInfo.info_id = book.book_info_id AND book.reader_id == 0
+          INNER JOIN book_category ON bookinfo.category_id = book_category.category_id
+        GROUP BY info_id
+        HAVING amount - count(*) == 0
     </select>
 
     <select id="selectLastRowId" resultType="Integer">

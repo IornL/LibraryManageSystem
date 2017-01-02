@@ -9,11 +9,11 @@
         <result property="frozen" column="frozen"/>
         <result property="maxBorrowCount" column="max_borrow_count"/>
     </resultMap>
-    <select id="getAllReaders" resultType="Reader" resultMap="ReaderMap">
+    <select id="getAllReaders" resultMap="ReaderMap">
         select * from reader
     </select>
 
-    <select id="selectReaderById" resultType="Reader">
+    <select id="selectReaderById" parameterType="Integer" resultMap="ReaderMap">
         select * from reader WHERE reader_id=#{id};
     </select>
 

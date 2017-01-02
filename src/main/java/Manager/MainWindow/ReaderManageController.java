@@ -1,6 +1,7 @@
 package Manager.MainWindow;
 
 import Manager.Model.Reader;
+import Manager.shared.SharedController;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -12,10 +13,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import Manager.shared.Util;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Created by Iron on 2016/12/12.
@@ -34,6 +41,7 @@ public class ReaderManageController {
     private AnchorPane addReaderDialog;
 
     public void initialize() {
+        SharedController.readerManageController = this;
         readerManagePane.setVisible(true);
         addReaderDialog.setVisible(false);
         readerManagePane.toFront();
@@ -95,4 +103,13 @@ public class ReaderManageController {
         flashTable();
     }
 
+    public void handleOpenContentDialog(MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getClickCount() > 1) {
+            AnchorPane detailPane = FXMLLoader.load(getClass().getResource("/FXML/ReaderInfoDialog.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("+1s");
+            stage.setScene(new Scene(detailPane));
+            stage.show();
+        }
+    }
 }

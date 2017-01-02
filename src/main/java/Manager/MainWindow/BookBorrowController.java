@@ -15,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Iron on 2016/12/12.
@@ -32,19 +34,6 @@ public class BookBorrowController {
     private JFXTreeTableView<Book> bookListView;
 
     public void initialize() {
-//        JFXTreeTableColumn<Book, Integer> idColumn = new JFXTreeTableColumn<Book, Integer>("图书编号");
-//        idColumn.setCellValueFactory(param -> new SimpleObjectProperty<Integer>(param.getValue().getValue().getId()));
-//
-//        JFXTreeTableColumn<Book, String> titleColumn = new JFXTreeTableColumn<Book, String>("书名");
-//        titleColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getTitle()));
-//
-//        JFXTreeTableColumn<Book, String> publisherColumn = new JFXTreeTableColumn<Book, String>("出版社");
-//        publisherColumn.setCellValueFactory((param -> new SimpleStringProperty(param.getValue().getValue().getPublisher())));
-//
-//        JFXTreeTableColumn<Book, String> returnDateColumn = new JFXTreeTableColumn<>("应还日期");
-//
-//        bookListView.getColumns().addAll(idColumn, titleColumn, publisherColumn);
-
     }
 
     private void flashTable(Reader reader) {
@@ -81,37 +70,9 @@ public class BookBorrowController {
                 return;
         }
         Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "借阅成功");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        book.setBorrowedDate(format.format(new Date()));
         book.setReader(reader);
         book.save();
-//        int bookId = -1, readerId = -1;
-//        try {
-//            bookId = Integer.parseInt(bookIdTextField.getText());
-//            readerId = Integer.parseInt(readerIdTextField.getText());
-//        } catch (NumberFormatException e) {
-//            Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "您的输入有误，请重新输入");
-//        }
-//        Book bookLog = Book.selectBookById(bookId);
-//        Reader reader = Reader.selectReaderById(readerId);
-//        if (bookLog != null && reader != null) {
-//            if (reader.isFrozen()) {
-//                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该账号已被续");
-//                return;
-//            }
-//            if (reader.checkOverDue()) {
-//                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该账号有超期图书，无法借阅");
-//                return;
-//            }
-//            if (bookLog.getStatus() != Book.STATUS.INSIDE) {
-//                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该书已被外借");
-//            }
-//            bookLog.setBorrowedDate(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
-//            bookLog.setBorrower(reader);
-//            bookLog.setStatus(Book.STATUS.OUTSIDE);
-//            bookLog.save();
-//            flashTable(reader);
-//            Util.setMessageLabel(messageLabel, Util.MESSAGE_SUCCESS, "借阅成功");
-//        } else {
-//                Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该图书或读者不存在");
-//        }
     }
 }

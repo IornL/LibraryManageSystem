@@ -12,7 +12,7 @@
     <children>
         <AnchorPane fx:id="bookManagePane" layoutY="4.0" prefHeight="600.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <JFXButton layoutX="457.0" onAction="#handleOpenBookModifyDialog" prefHeight="48.0" prefWidth="104.0" text="添加">
+                <JFXButton layoutX="457.0" onAction="#handleOpenBookInsertDialog" prefHeight="48.0" prefWidth="104.0" text="添加">
                     <graphic>
                         <FontAwesomeIcon iconName="PLUS" />
                     </graphic>

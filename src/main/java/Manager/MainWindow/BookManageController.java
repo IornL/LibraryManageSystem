@@ -107,13 +107,18 @@ public class BookManageController {
             BookCategory category = categoryComboBox.getValue();
             int amount = Integer.parseInt(amountTextFiled.getText());
             String date = pubDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+            int index;
+            try {
+                index = BookInfo.selectSumOfBookByCategory(category);
+            } catch (NullPointerException e){
+                index = 0;
+            }
             bookInfo.setTitle(title);
             bookInfo.setPublisher(publisher);
             bookInfo.setPubDate(date);
             bookInfo.setAmount(amount);
             bookInfo.setCategory(category);
             bookInfo.save();
-            int index = BookInfo.selectSumOfBookByCategory(category);
             for(int i = 0; i < amount; ++i) {
                 Book book = new Book();
                 book.setId(bookInfo.getCategory().getPrefix() + (++index));
@@ -195,6 +200,7 @@ public class BookManageController {
                 Util.setMessageLabel(messageLabel, Util.MESSAGE_ERROR, "该类书籍并未全部在馆，无法删除");
                 return;
             }
+            Book.deleteBookByBookInfo(bookInfoItem.getValue());
             bookInfoItem.getParent().getChildren().remove(bookInfoItem);
             bookInfoItem.getValue().delete();
         }
@@ -221,12 +227,24 @@ public class BookManageController {
     }
 
     public void handleOpenBookInfoDetail(MouseEvent mouseEvent) throws IOException {
-        if(mouseEvent.getClickCount() == 2) {
+        if(mouseEvent.getClickCount() > 1) {
             AnchorPane detailPane = FXMLLoader.load(getClass().getResource("/FXML/BookInfoDialog.fxml"));
             Stage stage = new Stage();
             stage.setTitle("+1s");
             stage.setScene(new Scene(detailPane));
             stage.show();
         }
+    }
+
+    public void handleOpenBookInsertDialog(ActionEvent event) {
+        titleTextField.clear();
+        publisherTextFiled.clear();
+        ISBNTextFiled.clear();
+        amountTextFiled.clear();
+        categoryComboBox.setDisable(false);
+        commitButton.setText("添加");
+        bookManagePane.setVisible(false);
+        bookUpdatePane.toFront();
+        bookUpdatePane.setVisible(true);
     }
 }
